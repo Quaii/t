@@ -42,27 +42,27 @@
 		A1234567890ABCDEF123456A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A1234567890ABCDEF1234570 /* TravelData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TravelData.xcdatamodel; sourceTree = "<group>"; };
-		A2345678901BCDEF1234571 /* LuxuryNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Components/LuxuryNavigationController.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234572 /* LuxuryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Components/LuxuryCard.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234573 /* PremiumButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Components/PremiumButton.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234574 /* TravelDataImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/TravelDataImporter.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234575 /* TravelDataExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/TravelDataExporter.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234576 /* DiscoveryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/DiscoveryService.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234577 /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/FavoritesManager.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234578 /* PrivacyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/Privacy/PrivacyManager.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234579 /* PhotoLibraryScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/PhotoAnalysis/PhotoLibraryScanner.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF123457A /* LocationExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/PhotoAnalysis/LocationExtractor.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF123457B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Services/Persistence/CoreDataStack.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF123457C /* ModernTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/DesignSystem/ModernTypography.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF123457D /* ModernColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/DesignSystem/ModernColorPalette.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF123457E /* LuxuryTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/DesignSystem/LuxuryTypography.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF123457F /* LuxurySpacingAndLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/DesignSystem/LuxurySpacingAndLayout.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234580 /* LuxuryColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/DesignSystem/LuxuryColorPalette.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234581 /* LuxuryAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/DesignSystem/LuxuryAnimation.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234582 /* VisitedPlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Views/Globe/VisitedPlaceDetailView.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234583 /* InteractiveGlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Views/Globe/InteractiveGlobeView.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234584 /* TripPlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Views/TripPlanningView.swift; sourceTree = "<group>"; };
-		A2345678901BCDEF1234585 /* MainDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelApp/Views/MainDashboardView.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234571 /* LuxuryNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components/LuxuryNavigationController.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234572 /* LuxuryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components/LuxuryCard.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234573 /* PremiumButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components/PremiumButton.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234574 /* TravelDataImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/TravelDataImporter.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234575 /* TravelDataExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/TravelDataExporter.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234576 /* DiscoveryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/DiscoveryService.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234577 /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/FavoritesManager.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234578 /* PrivacyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Privacy/PrivacyManager.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234579 /* PhotoLibraryScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/PhotoAnalysis/PhotoLibraryScanner.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF123457A /* LocationExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/PhotoAnalysis/LocationExtractor.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF123457B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/Persistence/CoreDataStack.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF123457C /* ModernTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/ModernTypography.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF123457D /* ModernColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/ModernColorPalette.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF123457E /* LuxuryTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/LuxuryTypography.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF123457F /* LuxurySpacingAndLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/LuxurySpacingAndLayout.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234580 /* LuxuryColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/LuxuryColorPalette.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234581 /* LuxuryAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem/LuxuryAnimation.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234582 /* VisitedPlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Globe/VisitedPlaceDetailView.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234583 /* InteractiveGlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/Globe/InteractiveGlobeView.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234584 /* TripPlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/TripPlanningView.swift; sourceTree = "<group>"; };
+		A2345678901BCDEF1234585 /* MainDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/MainDashboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -432,7 +432,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Odyssée/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TravelApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access camera to capture travel moments";
@@ -463,7 +463,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Odyssée/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TravelApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access camera to capture travel moments";
