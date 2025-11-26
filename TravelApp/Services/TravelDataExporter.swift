@@ -30,7 +30,7 @@ class TravelDataExporter: ObservableObject {
 
         do {
             let exportData = try await prepareCompleteExportData()
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "wanderlux_backup")
+            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_backup")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -60,7 +60,7 @@ class TravelDataExporter: ObservableObject {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
             let dateString = formatter.string(from: startDate)
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "wanderlux_export_\(dateString)")
+            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_export_\(dateString)")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -87,7 +87,7 @@ class TravelDataExporter: ObservableObject {
 
         do {
             let exportData = try await prepareFavoritesExportData()
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "wanderlux_favorites")
+            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_favorites")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -114,7 +114,7 @@ class TravelDataExporter: ObservableObject {
 
         do {
             let exportData = try await prepareCollectionsExportData(collectionIds: collectionIds)
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "wanderlux_collections")
+            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_collections")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -561,5 +561,5 @@ enum ExportError: LocalizedError {
 // MARK: - UTType Extensions
 
 extension UTType {
-    static let wanderluxExport = UTType(filenameExtension: "wanderlux", conformingTo: [.json])
+    static let odysseeExport = UTType(filenameExtension: "odyssee", conformingTo: [.json])
 }

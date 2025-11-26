@@ -69,7 +69,7 @@ class PhotoLibraryScanner: ObservableObject {
         // Get last scan date to only process new photos
         let lastScanDate = getLastScanDate()
 
-        let backgroundQueue = DispatchQueue(label: "com.wanderlux.photoScanning", qos: .userInitiated)
+        let backgroundQueue = DispatchQueue(label: "com.odyssee.photoScanning", qos: .userInitiated)
 
         backgroundQueue.async {
             self.processPhotosBatch(assets: allPhotos, lastScanDate: lastScanDate) {

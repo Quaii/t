@@ -640,5 +640,5 @@ extension UserPreferences {
 }
 
 extension UTType {
-    static let wanderluxImport = UTType(filenameExtension: "wanderlux", conformingTo: [.json])
+    static let odysseeImport = UTType(filenameExtension: "odyssee", conformingTo: [.json])
 }
