@@ -36,8 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1234567890ABCDEF1234563 /* Odyssée.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Odyssée.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1234567890ABCDEF1234566 /* OdysséeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OdysséeApp.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF1234563 /* Odyssée.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Odyssée.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1234567890ABCDEF1234566 /* OdysséeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OdysséeApp.swift"; sourceTree = "<group>"; };
 		A1234567890ABCDEF1234568 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
