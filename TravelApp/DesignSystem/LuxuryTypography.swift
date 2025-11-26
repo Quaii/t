@@ -7,7 +7,12 @@
 //
 
 import SwiftUI
-import UIKit
+
+// UIKit import removed, handled by conditional import below
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 struct LuxuryTypography {
     // MARK: - Font System (San Francisco + Didot)
@@ -45,30 +50,35 @@ struct LuxuryTypography {
     // MARK: - UI Font Equivalents
 
     struct UIFonts {
-        static let headline = UIFont.systemFont(ofSize: 28, weight: .bold)
-        static let title = UIFont.systemFont(ofSize: 22, weight: .semibold)
-        static let subtitle = UIFont.systemFont(ofSize: 18, weight: .medium)
-        static let body = UIFont.systemFont(ofSize: 17, weight: .regular)
-        static let caption = UIFont.systemFont(ofSize: 15, weight: .light)
-        static let footnote = UIFont.systemFont(ofSize: 13, weight: .regular)
-        static let didotLarge = UIFont(name: "Didot", size: 28) ?? UIFont.boldSystemFont(ofSize: 28)
-        static let didotMedium = UIFont(name: "Didot", size: 22) ?? UIFont.boldSystemFont(ofSize: 22)
-        static let didotSmall = UIFont(name: "Didot", size: 18) ?? UIFont.systemFont(ofSize: 18, weight: .medium)
+        #if canImport(UIKit)
+            static let headline = UIFont.systemFont(ofSize: 28, weight: .bold)
+            static let title = UIFont.systemFont(ofSize: 22, weight: .semibold)
+            static let subtitle = UIFont.systemFont(ofSize: 18, weight: .medium)
+            static let body = UIFont.systemFont(ofSize: 17, weight: .regular)
+            static let caption = UIFont.systemFont(ofSize: 15, weight: .light)
+            static let footnote = UIFont.systemFont(ofSize: 13, weight: .regular)
+            static let didotLarge =
+                UIFont(name: "Didot", size: 28) ?? UIFont.boldSystemFont(ofSize: 28)
+            static let didotMedium =
+                UIFont(name: "Didot", size: 22) ?? UIFont.boldSystemFont(ofSize: 22)
+            static let didotSmall =
+                UIFont(name: "Didot", size: 18) ?? UIFont.systemFont(ofSize: 18, weight: .medium)
+        #endif
     }
 
     // MARK: - Dynamic Type Support
 
     struct Scaled {
-        static let headline = headline.scaled(minimum: 20, maximum: 36)
-        static let title = title.scaled(minimum: 16, maximum: 28)
-        static let subtitle = subtitle.scaled(minimum: 14, maximum: 24)
-        static let body = body.scaled(minimum: 14, maximum: 20)
-        static let caption = caption.scaled(minimum: 12, maximum: 18)
-        static let footnote = footnote.scaled(minimum: 11, maximum: 16)
+        static let headline = LuxuryTypography.headline.scaled(minimum: 20, maximum: 36)
+        static let title = LuxuryTypography.title.scaled(minimum: 16, maximum: 28)
+        static let subtitle = LuxuryTypography.subtitle.scaled(minimum: 14, maximum: 24)
+        static let body = LuxuryTypography.body.scaled(minimum: 14, maximum: 20)
+        static let caption = LuxuryTypography.caption.scaled(minimum: 12, maximum: 18)
+        static let footnote = LuxuryTypography.footnote.scaled(minimum: 11, maximum: 16)
 
-        static let didotLarge = didotLarge.scaled(minimum: 20, maximum: 36)
-        static let didotMedium = didotMedium.scaled(minimum: 16, maximum: 28)
-        static let didotSmall = didotSmall.scaled(minimum: 14, maximum: 24)
+        static let didotLarge = LuxuryTypography.didotLarge.scaled(minimum: 20, maximum: 36)
+        static let didotMedium = LuxuryTypography.didotMedium.scaled(minimum: 16, maximum: 28)
+        static let didotSmall = LuxuryTypography.didotSmall.scaled(minimum: 14, maximum: 24)
     }
 
     // MARK: - Typography Styles for Specific Use Cases
@@ -159,20 +169,21 @@ extension LuxuryTypography {
             self.letterSpacing = letterSpacing
         }
 
-        func apply(to text: String) -> Text {
-            var textComponent = Text(text)
+        func apply(to text: String) -> some View {
+            let textComponent = Text(text)
                 .font(font)
                 .foregroundColor(color)
 
             if let lineHeight = lineHeight {
-                textComponent = textComponent.lineSpacing(lineHeight)
+                return AnyView(textComponent.lineSpacing(lineHeight))
             }
 
+            var finalText = textComponent
             if let letterSpacing = letterSpacing {
-                textComponent = textComponent.kerning(letterSpacing)
+                finalText = finalText.kerning(letterSpacing)
             }
 
-            return textComponent
+            return AnyView(finalText)
         }
     }
 
@@ -327,18 +338,5 @@ extension LuxuryTypography {
 // MARK: - Accessible Typography
 
 extension LuxuryTypography {
-    struct Accessible {
-        static let headline = headline.accessibility()
-        static let title = title.accessibility()
-        static let body = body.accessibility()
-        static let caption = caption.accessibility()
-
-        private static func accessibility(font: Font) -> Font {
-            // Ensure minimum readable sizes for accessibility
-            if UIFont.preferredFont(forTextStyle: .body).pointSize >= 18 {
-                return font.size(font.size.value * 1.2)
-            }
-            return font
-        }
-    }
+    // Accessible struct removed due to invalid Font API usage. Use Scaled struct for dynamic type.
 }

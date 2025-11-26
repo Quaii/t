@@ -6,18 +6,18 @@
 //  Copyright © 2025 Odyssée. All rights reserved.
 //
 
-import SwiftUI
-import Photos
 import CoreLocation
-import UserNotifications
-import LocalAuthentication
 import Foundation
+import LocalAuthentication
+import Photos
+import SwiftUI
+import UserNotifications
 
-class PrivacyManager: ObservableObject {
+class PrivacyManager: NSObject, ObservableObject {
     @Published var photoLibraryAuthorizationStatus: PHAuthorizationStatus = .notDetermined
     @Published var locationAuthorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var notificationAuthorizationStatus: UNAuthorizationStatus = .notDetermined
-    @Published var biometricAvailability: LAContext.BiometryType = .none
+    @Published var biometricAvailability: LABiometryType = .none
 
     @Published var isFirstLaunch: Bool = true
     @Published var onboardingCompleted: Bool = false
@@ -25,7 +25,8 @@ class PrivacyManager: ObservableObject {
     private let locationManager = CLLocationManager()
     private let userNotificationCenter = UNUserNotificationCenter.current()
 
-    init() {
+    override init() {
+        super.init()
         locationManager.delegate = self
         checkCurrentPermissions()
         checkBiometricAvailability()
@@ -68,7 +69,8 @@ class PrivacyManager: ObservableObject {
 
     func requestLimitedPhotoLibraryAccess() async -> Bool {
         return await withCheckedContinuation { continuation in
-            PHPhotoLibrary.requestLimitedLibraryAccessForContentTypes([.image]) { [weak self] status in
+            PHPhotoLibrary.requestLimitedLibraryAccessForContentTypes([.image]) {
+                [weak self] status in
                 DispatchQueue.main.async {
                     self?.photoLibraryAuthorizationStatus = status
                     continuation.resume(returning: status == .authorized || status == .limited)
@@ -85,8 +87,9 @@ class PrivacyManager: ObservableObject {
 
             // Delay to allow delegate callback
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                let isAuthorized = self.locationAuthorizationStatus == .authorizedWhenInUse ||
-                                 self.locationAuthorizationStatus == .authorizedAlways
+                let isAuthorized =
+                    self.locationAuthorizationStatus == .authorizedWhenInUse
+                    || self.locationAuthorizationStatus == .authorizedAlways
                 continuation.resume(returning: isAuthorized)
             }
         }
@@ -107,7 +110,9 @@ class PrivacyManager: ObservableObject {
 
     func requestNotificationPermissions() async -> Bool {
         do {
-            let granted = try await userNotificationCenter.requestAuthorization(options: [.alert, .sound, .badge])
+            let granted = try await userNotificationCenter.requestAuthorization(options: [
+                .alert, .sound, .badge,
+            ])
             DispatchQueue.main.async {
                 self.notificationAuthorizationStatus = granted ? .authorized : .denied
             }
@@ -124,7 +129,8 @@ class PrivacyManager: ObservableObject {
         let context = LAContext()
         var error: NSError?
 
-        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        else {
             return false
         }
 
@@ -159,11 +165,13 @@ class PrivacyManager: ObservableObject {
     // MARK: - Permission Status Checks
 
     func canAccessPhotoLibrary() -> Bool {
-        return photoLibraryAuthorizationStatus == .authorized || photoLibraryAuthorizationStatus == .limited
+        return photoLibraryAuthorizationStatus == .authorized
+            || photoLibraryAuthorizationStatus == .limited
     }
 
     func canAccessLocation() -> Bool {
-        return locationAuthorizationStatus == .authorizedWhenInUse || locationAuthorizationStatus == .authorizedAlways
+        return locationAuthorizationStatus == .authorizedWhenInUse
+            || locationAuthorizationStatus == .authorizedAlways
     }
 
     func canTrackLocation() -> Bool {
@@ -189,7 +197,7 @@ class PrivacyManager: ObservableObject {
             let entities = [
                 "VisitedPlace", "LuxuryDestination", "TripPlan",
                 "TravelMoment", "LuxuryCollection", "LuxuryExperience",
-                "UserPreferences"
+                "UserPreferences",
             ]
 
             for entityName in entities {
@@ -324,7 +332,9 @@ class PrivacyManager: ObservableObject {
 // MARK: - CLLocationManagerDelegate
 
 extension PrivacyManager: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(
+        _ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus
+    ) {
         DispatchQueue.main.async {
             self.locationAuthorizationStatus = status
         }
@@ -379,8 +389,8 @@ extension PrivacyManager {
             "permissionsGranted": [
                 "photos": canAccessPhotoLibrary(),
                 "location": canAccessLocation(),
-                "notifications": canSendNotifications()
-            ]
+                "notifications": canSendNotifications(),
+            ],
         ]
     }
 }

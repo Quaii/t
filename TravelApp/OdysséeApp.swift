@@ -6,10 +6,10 @@
 //  Copyright © 2025 Odyssée. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
-import Photos
 import CoreLocation
+import Photos
+import SwiftUI
 
 @main
 struct OdysséeApp: App {
@@ -19,7 +19,9 @@ struct OdysséeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(
+                    \.managedObjectContext, persistenceController.persistentContainer.viewContext
+                )
                 .environmentObject(privacyManager)
                 .onAppear {
                     setupApp()
@@ -46,11 +48,11 @@ struct OdysséeApp: App {
         navBarAppearance.backgroundColor = UIColor(ModernColorPalette.richCharcoal)
         navBarAppearance.titleTextAttributes = [
             .font: ModernTypography.UIFonts.displaySemibold,
-            .foregroundColor: UIColor(ModernColorPalette.offWhite)
+            .foregroundColor: UIColor(ModernColorPalette.offWhite),
         ]
         navBarAppearance.largeTitleTextAttributes = [
             .font: ModernTypography.UIFonts.displayBold,
-            .foregroundColor: UIColor(ModernColorPalette.offWhite)
+            .foregroundColor: UIColor(ModernColorPalette.offWhite),
         ]
         navBarAppearance.shadowColor = UIColor.clear
 
@@ -68,11 +70,11 @@ struct OdysséeApp: App {
         // Tab bar item appearance
         tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [
             .font: ModernTypography.UIFonts.caption1,
-            .foregroundColor: UIColor(ModernColorPalette.tertiaryText)
+            .foregroundColor: UIColor(ModernColorPalette.tertiaryText),
         ]
         tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [
             .font: ModernTypography.UIFonts.caption1,
-            .foregroundColor: UIColor(ModernColorPalette.vibrantBlue)
+            .foregroundColor: UIColor(ModernColorPalette.vibrantBlue),
         ]
 
         UITabBar.appearance().standardAppearance = tabBarAppearance

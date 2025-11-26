@@ -1,22 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="VisitedLocation" representedClassName="VisitedLocation" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="VisitedPlace" representedClassName="VisitedPlace" syncable="YES" codeGenerationType="category">
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="firstVisitDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastVisitDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="visitDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="photoCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="travelMoments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TravelMoment" inverseName="TravelMoment.visitedPlace" inverseEntity="TravelMoment"/>
     </entity>
-    <entity name="TravelTrip" representedClassName="TravelTrip" syncable="YES" codeGenerationType="class">
-        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    <entity name="LuxuryDestination" representedClassName="LuxuryDestination" syncable="YES" codeGenerationType="manual">
+        <attribute name="averageLuxuryCost" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="bestTravelSeasons" optional="YES" attributeType="String"/>
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="destinationType" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="luxuryRating" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="region" optional="YES" attributeType="String"/>
+        <attribute name="signatureExperiences" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="experiences" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LuxuryExperience" inverseName="LuxuryExperience.destination" inverseEntity="LuxuryExperience"/>
+        <relationship name="tripPlans" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TripPlan" inverseName="TripPlan.destination" inverseEntity="TripPlan"/>
+    </entity>
+    <entity name="TripPlan" representedClassName="TripPlan" syncable="YES" codeGenerationType="manual">
+        <attribute name="activitiesBudget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="accommodationBudget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="diningBudget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="destination" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="totalBudget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="transportBudget" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="travelerCount" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="tripName" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="destination" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LuxuryDestination" inverseName="LuxuryDestination.tripPlans" inverseEntity="LuxuryDestination"/>
     </entity>
-    <entity name="TravelPhoto" representedClassName="TravelPhoto" syncable="YES" codeGenerationType="class">
-        <attribute name="filename" optional="YES" attributeType="String"/>
-        <attribute name="locationReference" optional="YES" attributeType="String"/>
-        <attribute name="captureDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="metadata" optional="YES" attributeType="String"/>
+    <entity name="TravelMoment" representedClassName="TravelMoment" syncable="YES" codeGenerationType="manual">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isHighlight" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="momentDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="photoAssetIdentifier" optional="YES" attributeType="String"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="tags" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="visitedPlace" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="VisitedPlace" inverseName="VisitedPlace.travelMoments" inverseEntity="VisitedPlace"/>
+    </entity>
+    <entity name="LuxuryCollection" representedClassName="LuxuryCollection" syncable="YES" codeGenerationType="manual">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isPublic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="theme" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="LuxuryExperience" representedClassName="LuxuryExperience" syncable="YES" codeGenerationType="manual">
+        <attribute name="bookingRequired" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionText" optional="YES" attributeType="String"/>
+        <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="estimatedCost" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="experienceName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="luxuryLevel" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="seasonalAvailability" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="destination" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LuxuryDestination" inverseName="LuxuryDestination.experiences" inverseEntity="LuxuryDestination"/>
+    </entity>
+    <entity name="UserPreferences" representedClassName="UserPreferences" syncable="YES" codeGenerationType="manual">
+        <attribute name="appTheme" optional="YES" attributeType="String"/>
+        <attribute name="autoPhotoScanEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="defaultMapView" optional="YES" attributeType="String"/>
+        <attribute name="exportFormat" optional="YES" attributeType="String"/>
+        <attribute name="globeStyle" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastBackupDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="photoScanLastRun" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="scanFrequency" optional="YES" attributeType="Integer 16" defaultValueString="24" usesScalarValueType="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
 </model>

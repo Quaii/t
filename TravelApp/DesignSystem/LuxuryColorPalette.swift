@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
 struct LuxuryColorPalette {
     // MARK: - Primary Colors (Rolls-Royce Inspired)
 
@@ -112,10 +116,10 @@ struct LuxuryColorPalette {
     /// Collection themes
     static let collectionColors: [Color] = [
         softGold, eliteSilver, premiumBlue, exclusivePurple,
-        Color(hex: "#DC2626"), // Ruby
-        Color(hex: "#059669"), // Emerald
-        Color(hex: "#7C3AED"), // Amethyst
-        Color(hex: "#EA580C")  // Amber
+        Color(hex: "#DC2626"),  // Ruby
+        Color(hex: "#059669"),  // Emerald
+        Color(hex: "#7C3AED"),  // Amethyst
+        Color(hex: "#EA580C"),  // Amber
     ]
 
     // MARK: - Luxury Gradients
@@ -125,7 +129,7 @@ struct LuxuryColorPalette {
         colors: [
             Color(hex: "#D4AF37"),
             Color(hex: "#F4E4C1"),
-            Color(hex: "#D4AF37")
+            Color(hex: "#D4AF37"),
         ],
         startPoint: .leading,
         endPoint: .trailing
@@ -136,7 +140,7 @@ struct LuxuryColorPalette {
         colors: [
             Color(hex: "#1A1A1A"),
             Color(hex: "#2D2D2D"),
-            Color(hex: "#1A1A1A")
+            Color(hex: "#1A1A1A"),
         ],
         startPoint: .top,
         endPoint: .bottom
@@ -147,7 +151,7 @@ struct LuxuryColorPalette {
         colors: [
             Color(hex: "#F5F5F5"),
             Color.white,
-            Color(hex: "#F5F5F5")
+            Color(hex: "#F5F5F5"),
         ],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
@@ -155,13 +159,19 @@ struct LuxuryColorPalette {
 
     // MARK: - Shadow Colors
 
-    /// Soft shadow for luxury cards
+    struct Shadow {
+        static let subtle = (color: Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
+        static let medium = (color: Color.black.opacity(0.15), radius: 12, x: 0, y: 6)
+        static let heavy = (color: Color.black.opacity(0.25), radius: 20, x: 0, y: 10)
+    }
+
+    /// Soft shadow for luxury cards (Legacy support)
     static let softShadow = Color.black.opacity(0.08)
 
-    /// Medium shadow for elevated elements
+    /// Medium shadow for elevated elements (Legacy support)
     static let mediumShadow = Color.black.opacity(0.15)
 
-    /// Heavy shadow for floating elements
+    /// Heavy shadow for floating elements (Legacy support)
     static let heavyShadow = Color.black.opacity(0.25)
 
     // MARK: - Accessibility Support
@@ -193,13 +203,16 @@ extension Color {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
+        let a: UInt64
+        let r: UInt64
+        let g: UInt64
+        let b: UInt64
         switch hex.count {
-        case 3: // RGB (12-bit)
+        case 3:  // RGB (12-bit)
             (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
+        case 6:  // RGB (24-bit)
             (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
+        case 8:  // ARGB (32-bit)
             (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
         default:
             (a, r, g, b) = (1, 1, 1, 0)
@@ -209,64 +222,76 @@ extension Color {
             .sRGB,
             red: Double(r) / 255,
             green: Double(g) / 255,
-            blue:  Double(b) / 255,
+            blue: Double(b) / 255,
             opacity: Double(a) / 255
         )
     }
 
     /// Get hex string from Color
     func toHex() -> String? {
-        let uic = UIColor(self)
-        guard let components = uic.cgColor.components, components.count >= 3 else {
+        #if canImport(UIKit)
+            let uic = UIColor(self)
+            guard let components = uic.cgColor.components, components.count >= 3 else {
+                return nil
+            }
+            let r = Float(components[0])
+            let g = Float(components[1])
+            let b = Float(components[2])
+            var a = Float(1.0)
+
+            if components.count > 3 {
+                a = Float(components[3])
+            }
+
+            if a != Float(1.0) {
+                return String(
+                    format: "%02lX%02lX%02lX%02lX", lroundf(a * 255), lroundf(r * 255),
+                    lroundf(g * 255), lroundf(b * 255))
+            } else {
+                return String(
+                    format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+            }
+        #else
             return nil
-        }
-        let r = Float(components[0])
-        let g = Float(components[1])
-        let b = Float(components[2])
-        var a = Float(1.0)
-
-        if components.count > 3 {
-            a = Float(components[3])
-        }
-
-        if a != Float(1.0) {
-            return String(format: "%02lX%02lX%02lX%02lX", lroundf(a * 255), lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
-        } else {
-            return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
-        }
+        #endif
     }
 }
 
-// MARK: - UIColor Extensions for UIKit Integration
+#if canImport(UIKit)
+    // MARK: - UIColor Extensions for UIKit Integration
 
-extension UIColor {
-    static let luxuryMidnightBlack = UIColor(hex: "#1A1A1A")
-    static let luxurySoftGold = UIColor(hex: "#D4AF37")
-    static let luxuryPearlWhite = UIColor(hex: "#F5F5F5")
-    static let luxuryBurlWood = UIColor(hex: "#8B7355")
-    static let luxuryWarmWhite = UIColor(hex: "#FAFAFA")
+    extension UIColor {
+        static let luxuryMidnightBlack = UIColor(hex: "#1A1A1A")
+        static let luxurySoftGold = UIColor(hex: "#D4AF37")
+        static let luxuryPearlWhite = UIColor(hex: "#F5F5F5")
+        static let luxuryBurlWood = UIColor(hex: "#8B7355")
+        static let luxuryWarmWhite = UIColor(hex: "#FAFAFA")
 
-    convenience init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (1, 1, 1, 0)
+        convenience init(hex: String) {
+            let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+            var int: UInt64 = 0
+            Scanner(string: hex).scanHexInt64(&int)
+            let a: UInt64
+            let r: UInt64
+            let g: UInt64
+            let b: UInt64
+            switch hex.count {
+            case 3:  // RGB (12-bit)
+                (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+            case 6:  // RGB (24-bit)
+                (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+            case 8:  // ARGB (32-bit)
+                (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+            default:
+                (a, r, g, b) = (1, 1, 1, 0)
+            }
+
+            self.init(
+                red: CGFloat(r) / 255,
+                green: CGFloat(g) / 255,
+                blue: CGFloat(b) / 255,
+                alpha: CGFloat(a) / 255
+            )
         }
-
-        self.init(
-            red: CGFloat(r) / 255,
-            green: CGFloat(g) / 255,
-            blue: CGFloat(b) / 255,
-            alpha: CGFloat(a) / 255
-        )
     }
-}
+#endif

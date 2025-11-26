@@ -14,8 +14,10 @@ class LocationExtractor: NSObject, ObservableObject {
     private let geocodingQueue = DispatchQueue(label: "com.odyssee.geocoding", qos: .utility)
 
     // Cache for geocoding results to avoid API limits
-    private var geocodingCache: [String: (placeName: String?, country: String?, city: String?)] = [:]
-    private let cacheQueue = DispatchQueue(label: "com.odyssee.geocoding.cache", attributes: .concurrent)
+    private var geocodingCache: [String: (placeName: String?, country: String?, city: String?)] =
+        [:]
+    private let cacheQueue = DispatchQueue(
+        label: "com.odyssee.geocoding.cache", attributes: .concurrent)
 
     override init() {
         super.init()
@@ -30,7 +32,7 @@ class LocationExtractor: NSObject, ObservableObject {
         let coordinateKey = "\(latitude),\(longitude)"
 
         // Check cache first
-        cacheQueue.async(flags: .read) {
+        cacheQueue.async {
             if let cachedResult = self.geocodingCache[coordinateKey] {
                 DispatchQueue.main.async {
                     completion(cachedResult.placeName, cachedResult.country, cachedResult.city)
@@ -123,7 +125,8 @@ class LocationExtractor: NSObject, ObservableObject {
 
         for (latitude, longitude) in coordinates {
             group.enter()
-            reverseGeocodeLocation(latitude: latitude, longitude: longitude) { placeName, country, city in
+            reverseGeocodeLocation(latitude: latitude, longitude: longitude) {
+                placeName, country, city in
                 let key = "\(latitude),\(longitude)"
                 results[key] = (placeName, country, city)
                 group.leave()
@@ -165,14 +168,15 @@ class LocationExtractor: NSObject, ObservableObject {
         let latDirection = latitude >= 0 ? "N" : "S"
         let lonDirection = longitude >= 0 ? "E" : "W"
 
-        return String(format: "%.4f°%@, %.4f°%@",
-                     abs(latitude), latDirection,
-                     abs(longitude), lonDirection)
+        return String(
+            format: "%.4f°%@, %.4f°%@",
+            abs(latitude), latDirection,
+            abs(longitude), lonDirection)
     }
 
     /// Get timezone information for coordinates
     func getTimezoneForLocation(latitude: Double, longitude: Double) -> TimeZone? {
-        return TimeZone.current // Simplified - in production, you'd use a timezone lookup service
+        return TimeZone.current  // Simplified - in production, you'd use a timezone lookup service
     }
 
     /// Clear geocoding cache to free memory

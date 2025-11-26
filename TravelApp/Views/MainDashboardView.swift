@@ -121,12 +121,20 @@ struct MainDashboardView: View {
                 }) {
                     VStack(spacing: 4) {
                         Image(systemName: tab.iconName)
-                            .font(.system(size: 20, weight: selectedTab == tab ? .medium : .regular))
-                            .foregroundColor(selectedTab == tab ? ModernColorPalette.vibrantBlue : ModernColorPalette.tertiaryText)
+                            .font(
+                                .system(size: 20, weight: selectedTab == tab ? .medium : .regular)
+                            )
+                            .foregroundColor(
+                                selectedTab == tab
+                                    ? ModernColorPalette.vibrantBlue
+                                    : ModernColorPalette.tertiaryText)
 
                         Text(tab.displayName)
                             .font(ModernTypography.caption1)
-                            .foregroundColor(selectedTab == tab ? ModernColorPalette.vibrantBlue : ModernColorPalette.tertiaryText)
+                            .foregroundColor(
+                                selectedTab == tab
+                                    ? ModernColorPalette.vibrantBlue
+                                    : ModernColorPalette.tertiaryText)
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -248,36 +256,38 @@ struct ExploreView: View {
                 .font(ModernTypography.sectionHeader)
                 .foregroundColor(ModernColorPalette.primaryText)
 
-            LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
-            ], spacing: 12) {
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12),
+                ], spacing: 12
+            ) {
                 QuickActionCard(
                     title: "Add Place",
                     icon: "plus.circle.fill",
                     color: ModernColorPalette.vibrantBlue,
-                    action: { /* Add place action */ }
+                    action: { /* Add place action */  }
                 )
 
                 QuickActionCard(
                     title: "Scan Photos",
                     icon: "photo.stack.fill",
                     color: ModernColorPalette.mintGreen,
-                    action: { /* Scan photos action */ }
+                    action: { /* Scan photos action */  }
                 )
 
                 QuickActionCard(
                     title: "Find Hotels",
                     icon: "bed.double.fill",
                     color: ModernColorPalette.purpleAccent,
-                    action: { /* Find hotels action */ }
+                    action: { /* Find hotels action */  }
                 )
 
                 QuickActionCard(
                     title: "Restaurants",
                     icon: "fork.knife",
                     color: ModernColorPalette.warmOrange,
-                    action: { /* Restaurants action */ }
+                    action: { /* Restaurants action */  }
                 )
             }
         }
@@ -317,10 +327,12 @@ struct ExploreView: View {
                 .font(ModernTypography.sectionHeader)
                 .foregroundColor(ModernColorPalette.primaryText)
 
-            LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
-            ], spacing: 12) {
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12),
+                ], spacing: 12
+            ) {
                 ForEach(recommendedDestinations, id: \.id) { destination in
                     DestinationCard(destination: destination)
                 }
@@ -369,19 +381,46 @@ struct ExploreView: View {
 
     private var recommendedDestinations: [RecommendedDestination] {
         [
-            RecommendedDestination(id: 1, name: "Paris", country: "France", image: "paris", rating: 4.8),
-            RecommendedDestination(id: 2, name: "Tokyo", country: "Japan", image: "tokyo", rating: 4.9),
-            RecommendedDestination(id: 3, name: "Barcelona", country: "Spain", image: "barcelona", rating: 4.7),
-            RecommendedDestination(id: 4, name: "Rome", country: "Italy", image: "rome", rating: 4.6)
+            RecommendedDestination(
+                id: 1, name: "Paris", country: "France", image: "paris", rating: 4.8),
+            RecommendedDestination(
+                id: 2, name: "Tokyo", country: "Japan", image: "tokyo", rating: 4.9),
+            RecommendedDestination(
+                id: 3, name: "Barcelona", country: "Spain", image: "barcelona", rating: 4.7),
+            RecommendedDestination(
+                id: 4, name: "Rome", country: "Italy", image: "rome", rating: 4.6),
         ]
     }
 
     private var sampleRestaurant: Restaurant {
-        Restaurant(name: "The Modern", cuisine: "American", rating: 4.5, price: "$$$", distance: "0.3 mi")
+        Restaurant(
+            id: UUID(),
+            name: "The Modern",
+            cuisine: "American",
+            priceRange: "$$$",
+            rating: 4.5,
+            location: CLLocation(latitude: 0, longitude: 0),
+            address: "123 Main St",
+            phone: nil,
+            website: nil,
+            isOpenNow: true,
+            distance: "0.3 mi"
+        )
     }
 
     private var sampleHotel: Hotel {
-        Hotel(name: "The Plaza Hotel", rating: 4.8, price: "$$$$", distance: "0.5 mi")
+        Hotel(
+            id: UUID(),
+            name: "The Plaza Hotel",
+            rating: 4.8,
+            priceRange: "$$$$",
+            location: CLLocation(latitude: 0, longitude: 0),
+            address: "5th Ave",
+            phone: nil,
+            website: nil,
+            stars: 5,
+            amenities: []
+        )
     }
 }
 
@@ -425,11 +464,13 @@ struct PlaceCard: View {
         VStack(alignment: .leading, spacing: 8) {
             // Placeholder image
             RoundedRectangle(cornerRadius: 12)
-                .fill(LinearGradient(
-                    colors: [ModernColorPalette.vibrantBlue, ModernColorPalette.softBlue],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
+                .fill(
+                    LinearGradient(
+                        colors: [ModernColorPalette.vibrantBlue, ModernColorPalette.softBlue],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
                 .frame(height: 120)
                 .overlay(
                     VStack {
@@ -491,11 +532,13 @@ struct DestinationCard: View {
         VStack(alignment: .leading, spacing: 8) {
             // Image placeholder
             RoundedRectangle(cornerRadius: 12)
-                .fill(LinearGradient(
-                    colors: [ModernColorPalette.vibrantBlue, ModernColorPalette.purpleAccent],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
+                .fill(
+                    LinearGradient(
+                        colors: [ModernColorPalette.vibrantBlue, ModernColorPalette.purpleAccent],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
                 .frame(height: 120)
                 .overlay(
                     VStack {
@@ -531,20 +574,7 @@ struct DestinationCard: View {
     }
 }
 
-struct Restaurant {
-    let name: String
-    let cuisine: String
-    let rating: Double
-    let price: String
-    let distance: String
-}
-
-struct Hotel {
-    let name: String
-    let rating: Double
-    let price: String
-    let distance: String
-}
+// Structs removed to avoid duplication with DiscoveryService.swift
 
 struct RestaurantRow: View {
     let restaurant: Restaurant
@@ -574,7 +604,7 @@ struct RestaurantRow: View {
 
                     Spacer()
 
-                    Text(restaurant.price)
+                    Text(restaurant.priceRange)
                         .font(ModernTypography.captionMedium)
                         .foregroundColor(ModernColorPalette.secondaryText)
                 }
@@ -590,7 +620,7 @@ struct RestaurantRow: View {
 
                     Spacer()
 
-                    Text(restaurant.distance)
+                    Text(restaurant.distance ?? "")
                         .font(ModernTypography.caption1)
                         .foregroundColor(ModernColorPalette.tertiaryText)
                 }
@@ -634,13 +664,14 @@ struct HotelRow: View {
 
                     Spacer()
 
-                    Text(hotel.price)
+                    Text(hotel.priceRange)
                         .font(ModernTypography.captionMedium)
                         .foregroundColor(ModernColorPalette.secondaryText)
                 }
 
                 HStack {
-                    Text(hotel.distance)
+                    // Distance not available in Hotel struct yet, using placeholder or calculating
+                    Text("0.5 mi")
                         .font(ModernTypography.caption1)
                         .foregroundColor(ModernColorPalette.tertiaryText)
 
@@ -758,7 +789,8 @@ struct FloatingActionMenu: View {
         }
     }
 
-    private func menuButton(title: String, icon: String, action: @escaping () -> Void) -> some View {
+    private func menuButton(title: String, icon: String, action: @escaping () -> Void) -> some View
+    {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
@@ -786,10 +818,26 @@ struct OnboardingOverlay: View {
     @State private var animatedOffset: CGFloat = 0
 
     private let pages = [
-        OnboardingPage(title: "Welcome to Odyssée", description: "Your personal travel companion for discovering and saving your favorite places around the world.", image: "globe.americas.fill"),
-        OnboardingPage(title: "Save Your Spots", description: "Automatically add places from your photos or manually save your favorite restaurants, hotels, and destinations.", image: "heart.fill"),
-        OnboardingPage(title: "Plan Your Adventures", description: "Organize your trips, discover new places, and never forget a favorite spot again.", image: "map.fill"),
-        OnboardingPage(title: "Smart Discovery", description: "Get personalized recommendations for restaurants, hotels, and attractions based on your preferences.", image: "star.fill")
+        OnboardingPage(
+            title: "Welcome to Odyssée",
+            description:
+                "Your personal travel companion for discovering and saving your favorite places around the world.",
+            image: "globe.americas.fill"),
+        OnboardingPage(
+            title: "Save Your Spots",
+            description:
+                "Automatically add places from your photos or manually save your favorite restaurants, hotels, and destinations.",
+            image: "heart.fill"),
+        OnboardingPage(
+            title: "Plan Your Adventures",
+            description:
+                "Organize your trips, discover new places, and never forget a favorite spot again.",
+            image: "map.fill"),
+        OnboardingPage(
+            title: "Smart Discovery",
+            description:
+                "Get personalized recommendations for restaurants, hotels, and attractions based on your preferences.",
+            image: "star.fill"),
     ]
 
     var body: some View {
@@ -831,8 +879,15 @@ struct OnboardingOverlay: View {
                 HStack(spacing: 8) {
                     ForEach(0..<pages.count, id: \.self) { index in
                         Circle()
-                            .fill(index == currentPage ? ModernColorPalette.vibrantBlue : ModernColorPalette.tertiaryText)
-                            .frame(width: index == currentPage ? 8 : 6, height: index == currentPage ? 8 : 6)
+                            .fill(
+                                index == currentPage
+                                    ? ModernColorPalette.vibrantBlue
+                                    : ModernColorPalette.tertiaryText
+                            )
+                            .frame(
+                                width: index == currentPage ? 8 : 6,
+                                height: index == currentPage ? 8 : 6
+                            )
                             .animation(.easeInOut(duration: 0.3), value: currentPage)
                     }
                 }

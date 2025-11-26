@@ -20,7 +20,8 @@ class CoreDataStack {
         // Configure CloudKit integration (optional for users)
         let storeDescription = container.persistentStoreDescriptions.first
         storeDescription?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        storeDescription?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        storeDescription?.setOption(
+            true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
 
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
@@ -62,7 +63,8 @@ class CoreDataStack {
     }
 
     func batchDelete<T: NSManagedObject>(entity: T.Type, predicate: NSPredicate? = nil) {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(
+            entityName: T.entity().name ?? String(describing: T.self))
         if let predicate = predicate {
             fetchRequest.predicate = predicate
         }
@@ -72,10 +74,12 @@ class CoreDataStack {
 
         backgroundContext.perform {
             do {
-                let result = try self.backgroundContext.execute(deleteRequest) as? NSBatchDeleteResult
+                let result =
+                    try self.backgroundContext.execute(deleteRequest) as? NSBatchDeleteResult
                 let objectIDArray = result?.result as? [NSManagedObjectID]
                 let changes = [NSDeletedObjectsKey: objectIDArray ?? []]
-                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self.viewContext])
+                NSManagedObjectContext.mergeChanges(
+                    fromRemoteContextSave: changes, into: [self.viewContext])
             } catch {
                 print("Batch delete error: \(error)")
             }
@@ -88,7 +92,7 @@ class CoreDataStack {
         sortDescriptors: [NSSortDescriptor] = [],
         fetchLimit: Int? = nil
     ) -> [T] {
-        let request: NSFetchRequest<T> = T.fetchRequest()
+        let request = T.fetchRequest() as! NSFetchRequest<T>
 
         if let predicate = predicate {
             request.predicate = predicate
@@ -111,7 +115,7 @@ class CoreDataStack {
     }
 
     func count<T: NSManagedObject>(entity: T.Type, predicate: NSPredicate? = nil) -> Int {
-        let request: NSFetchRequest<T> = T.fetchRequest()
+        let request = T.fetchRequest() as! NSFetchRequest<T>
 
         if let predicate = predicate {
             request.predicate = predicate
@@ -181,5 +185,146 @@ extension CoreDataStack {
         try? context.save()
 
         return stack
-    }
+    }()
 }
+
+// MARK: - TravelDataModels
+
+// MARK: - VisitedPlace
+@objc(VisitedPlace)
+public class VisitedPlace: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var name: String?
+    @NSManaged public var country: String?
+    @NSManaged public var city: String?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
+    @NSManaged public var firstVisitDate: Date?
+    @NSManaged public var lastVisitDate: Date?
+    @NSManaged public var photoCount: Int32
+    @NSManaged public var isFavorite: Bool
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
+    @NSManaged public var notes: String?
+    @NSManaged public var travelMoments: NSSet?
+}
+
+extension VisitedPlace: Identifiable {}
+
+// MARK: - LuxuryDestination
+@objc(LuxuryDestination)
+public class LuxuryDestination: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var name: String?
+    @NSManaged public var country: String?
+    @NSManaged public var city: String?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
+    @NSManaged public var luxuryRating: Int16
+    @NSManaged public var destinationType: String?
+    @NSManaged public var averageLuxuryCost: NSDecimalNumber?
+    @NSManaged public var signatureExperiences: String?
+    @NSManaged public var bestTravelSeasons: String?
+    @NSManaged public var region: String?
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
+    @NSManaged public var tripPlans: NSSet?
+    @NSManaged public var experiences: NSSet?
+}
+
+extension LuxuryDestination: Identifiable {}
+
+// MARK: - TripPlan
+@objc(TripPlan)
+public class TripPlan: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var tripName: String?
+    @NSManaged public var startDate: Date?
+    @NSManaged public var endDate: Date?
+    @NSManaged public var travelerCount: Int16
+    @NSManaged public var totalBudget: NSDecimalNumber?
+    @NSManaged public var accommodationBudget: NSDecimalNumber?
+    @NSManaged public var diningBudget: NSDecimalNumber?
+    @NSManaged public var activitiesBudget: NSDecimalNumber?
+    @NSManaged public var transportBudget: NSDecimalNumber?
+    @NSManaged public var status: String?
+    @NSManaged public var priority: Int16
+    @NSManaged public var notes: String?
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
+    @NSManaged public var destination: LuxuryDestination?
+}
+
+extension TripPlan: Identifiable {}
+
+// MARK: - TravelMoment
+@objc(TravelMoment)
+public class TravelMoment: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var title: String?
+    @NSManaged public var momentDate: Date?
+    @NSManaged public var descriptionText: String?
+    @NSManaged public var tags: String?
+    @NSManaged public var rating: Int16
+    @NSManaged public var isHighlight: Bool
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var visitedPlace: VisitedPlace?
+    @NSManaged public var photoAssetIdentifier: String?
+}
+
+extension TravelMoment: Identifiable {}
+
+// MARK: - LuxuryCollection
+@objc(LuxuryCollection)
+public class LuxuryCollection: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var name: String?
+    @NSManaged public var descriptionText: String?  // XML 'description'
+    @NSManaged public var color: String?
+    @NSManaged public var icon: String?
+    @NSManaged public var isPublic: Bool
+    @NSManaged public var theme: String?
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
+}
+
+extension LuxuryCollection: Identifiable {}
+
+// MARK: - LuxuryExperience
+@objc(LuxuryExperience)
+public class LuxuryExperience: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var experienceName: String?
+    @NSManaged public var estimatedCost: NSDecimalNumber?
+    @NSManaged public var luxuryLevel: Int16
+    @NSManaged public var bookingRequired: Bool
+    @NSManaged public var category: String?
+    @NSManaged public var duration: String?
+    @NSManaged public var seasonalAvailability: String?
+    @NSManaged public var descriptionText: String?  // XML 'description'
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
+    @NSManaged public var destination: LuxuryDestination?
+}
+
+extension LuxuryExperience: Identifiable {}
+
+// MARK: - UserPreferences
+@objc(UserPreferences)
+public class UserPreferences: NSManagedObject {
+    @NSManaged public var id: UUID?
+    @NSManaged public var appTheme: String?
+    @NSManaged public var autoPhotoScanEnabled: Bool
+    @NSManaged public var defaultMapView: String?
+    @NSManaged public var exportFormat: String?
+    @NSManaged public var globeStyle: String?
+    @NSManaged public var lastBackupDate: Date?
+    @NSManaged public var photoScanLastRun: Date?
+    @NSManaged public var scanFrequency: Int16
+    @NSManaged public var createdAt: Date?
+    @NSManaged public var updatedAt: Date?
+
+    static let singletonID = "00000000-0000-0000-0000-000000000000"
+}
+
+extension UserPreferences: Identifiable {}

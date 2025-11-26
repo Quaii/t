@@ -6,8 +6,8 @@
 //  Copyright © 2025 Odyssée. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import UniformTypeIdentifiers
 
 class TravelDataImporter: ObservableObject {
@@ -166,7 +166,9 @@ class TravelDataImporter: ObservableObject {
 
     // MARK: - Data Import Methods
 
-    private func importVisitedPlaces(_ places: [VisitedPlaceExport], context: NSManagedObjectContext) throws {
+    private func importVisitedPlaces(
+        _ places: [VisitedPlaceExport], context: NSManagedObjectContext
+    ) throws {
         for placeExport in places {
             // Check if place already exists
             let existingPlace = try findExistingVisitedPlace(
@@ -214,7 +216,8 @@ class TravelDataImporter: ObservableObject {
         }
     }
 
-    private func importTripPlans(_ trips: [TripPlanExport], context: NSManagedObjectContext) throws {
+    private func importTripPlans(_ trips: [TripPlanExport], context: NSManagedObjectContext) throws
+    {
         for tripExport in trips {
             let trip = TripPlan(context: context)
             trip.id = UUID(uuidString: tripExport.id) ?? UUID()
@@ -236,7 +239,8 @@ class TravelDataImporter: ObservableObject {
             // Set destination relationship if destination ID exists
             if !tripExport.destinationId.isEmpty {
                 let destinationRequest = NSFetchRequest<DiscoveredPlace>(entityName: "VisitedPlace")
-                destinationRequest.predicate = NSPredicate(format: "id == %@", tripExport.destinationId)
+                destinationRequest.predicate = NSPredicate(
+                    format: "id == %@", tripExport.destinationId)
                 destinationRequest.fetchLimit = 1
 
                 let destinations = try context.fetch(destinationRequest)
@@ -245,13 +249,15 @@ class TravelDataImporter: ObservableObject {
         }
     }
 
-    private func importTravelMoments(_ moments: [TravelMomentExport], context: NSManagedObjectContext) throws {
+    private func importTravelMoments(
+        _ moments: [TravelMomentExport], context: NSManagedObjectContext
+    ) throws {
         for momentExport in moments {
             let moment = TravelMoment(context: context)
             moment.id = UUID(uuidString: momentExport.id) ?? UUID()
             moment.photoAssetIdentifier = momentExport.photoAssetIdentifier
             moment.title = momentExport.title
-            moment.description = momentExport.description
+            moment.descriptionText = momentExport.description
             moment.tags = momentExport.tags
             moment.rating = Int16(momentExport.rating)
             moment.isHighlight = momentExport.isHighlight
@@ -264,7 +270,8 @@ class TravelDataImporter: ObservableObject {
             // Set visited place relationship if place ID exists
             if !momentExport.visitedPlaceId.isEmpty {
                 let placeRequest = NSFetchRequest<VisitedPlace>(entityName: "VisitedPlace")
-                placeRequest.predicate = NSPredicate(format: "id == %@", momentExport.visitedPlaceId)
+                placeRequest.predicate = NSPredicate(
+                    format: "id == %@", momentExport.visitedPlaceId)
                 placeRequest.fetchLimit = 1
 
                 let places = try context.fetch(placeRequest)
@@ -273,7 +280,9 @@ class TravelDataImporter: ObservableObject {
         }
     }
 
-    private func importUserPreferences(_ prefs: UserPreferencesExport, context: NSManagedObjectContext) throws {
+    private func importUserPreferences(
+        _ prefs: UserPreferencesExport, context: NSManagedObjectContext
+    ) throws {
         let existingRequest = NSFetchRequest<UserPreferences>(entityName: "UserPreferences")
         existingRequest.predicate = NSPredicate(format: "id == %@", UserPreferences.singletonID)
         existingRequest.fetchLimit = 1
@@ -350,7 +359,9 @@ class TravelDataImporter: ObservableObject {
         return conflicts
     }
 
-    private func findExistingVisitedPlace(latitude: Double, longitude: Double, context: NSManagedObjectContext) throws -> VisitedPlace? {
+    private func findExistingVisitedPlace(
+        latitude: Double, longitude: Double, context: NSManagedObjectContext
+    ) throws -> VisitedPlace? {
         let request: NSFetchRequest<VisitedPlace> = VisitedPlace.fetchRequest()
         request.predicate = NSPredicate(
             format: "abs(latitude - %f) < 0.0001 AND abs(longitude - %f) < 0.0001",
@@ -361,7 +372,9 @@ class TravelDataImporter: ObservableObject {
         return try context.fetch(request).first
     }
 
-    private func findConflictingTripPlans(name: String, startDate: Date, endDate: Date, context: NSManagedObjectContext) throws -> [TripPlan] {
+    private func findConflictingTripPlans(
+        name: String, startDate: Date, endDate: Date, context: NSManagedObjectContext
+    ) throws -> [TripPlan] {
         let request: NSFetchRequest<TripPlan> = TripPlan.fetchRequest()
         request.predicate = NSPredicate(format: "tripName == %@", name)
         let existingTrips = try context.fetch(request)
@@ -369,9 +382,11 @@ class TravelDataImporter: ObservableObject {
         // Check for date conflicts
         return existingTrips.filter { existing in
             guard let existingStart = existing.startDate,
-                  let existingEnd = existing.endDate else { return false }
+                let existingEnd = existing.endDate
+            else { return false }
 
-            return dateRangesOverlap(start1: startDate, end1: endDate, start2: existingStart, end2: existingEnd)
+            return dateRangesOverlap(
+                start1: startDate, end1: endDate, start2: existingStart, end2: existingEnd)
         }
     }
 
@@ -381,14 +396,18 @@ class TravelDataImporter: ObservableObject {
 
     // MARK: - Conflict Resolution
 
-    private func applyConflictResolutions(_ data: TravelDataExport, resolutions: [ConflictResolution]) throws -> TravelDataExport {
+    private func applyConflictResolutions(
+        _ data: TravelDataExport, resolutions: [ConflictResolution]
+    ) throws -> TravelDataExport {
         var resolvedData = data
 
         for resolution in resolutions {
             switch resolution.action {
             case .keepExisting:
                 if resolution.conflict.type == .visitedPlace {
-                    resolvedData.visitedPlaces.removeAll { $0.id == resolution.conflict.importItem.id }
+                    resolvedData.visitedPlaces.removeAll {
+                        $0.id == resolution.conflict.importItem.id
+                    }
                 } else if resolution.conflict.type == .tripPlan {
                     resolvedData.tripPlans.removeAll { $0.id == resolution.conflict.importItem.id }
                 }
@@ -402,13 +421,21 @@ class TravelDataImporter: ObservableObject {
 
             case .merge:
                 if resolution.conflict.type == .visitedPlace {
-                    if let index = resolvedData.visitedPlaces.firstIndex(where: { $0.id == resolution.conflict.importItem.id }) {
-                        let merged = mergeVisitedPlaces(existing: resolution.conflict.existingItem.visitedPlace!, imported: resolution.conflict.importItem.visitedPlace!)
+                    if let index = resolvedData.visitedPlaces.firstIndex(where: {
+                        $0.id == resolution.conflict.importItem.id
+                    }) {
+                        let merged = mergeVisitedPlaces(
+                            existing: resolution.conflict.existingItem.visitedPlace!,
+                            imported: resolution.conflict.importItem.visitedPlace!)
                         resolvedData.visitedPlaces[index] = merged
                     }
                 } else if resolution.conflict.type == .tripPlan {
-                    if let index = resolvedData.tripPlans.firstIndex(where: { $0.id == resolution.conflict.importItem.id }) {
-                        let merged = mergeTripPlans(existing: resolution.conflict.existingItem.tripPlan!, imported: resolution.conflict.importItem.tripPlan!)
+                    if let index = resolvedData.tripPlans.firstIndex(where: {
+                        $0.id == resolution.conflict.importItem.id
+                    }) {
+                        let merged = mergeTripPlans(
+                            existing: resolution.conflict.existingItem.tripPlan!,
+                            imported: resolution.conflict.importItem.tripPlan!)
                         resolvedData.tripPlans[index] = merged
                     }
                 }
@@ -416,7 +443,9 @@ class TravelDataImporter: ObservableObject {
             case .skip:
                 // Skip importing this item
                 if resolution.conflict.type == .visitedPlace {
-                    resolvedData.visitedPlaces.removeAll { $0.id == resolution.conflict.importItem.id }
+                    resolvedData.visitedPlaces.removeAll {
+                        $0.id == resolution.conflict.importItem.id
+                    }
                 } else if resolution.conflict.type == .tripPlan {
                     resolvedData.tripPlans.removeAll { $0.id == resolution.conflict.importItem.id }
                 }
@@ -426,11 +455,13 @@ class TravelDataImporter: ObservableObject {
         return resolvedData
     }
 
-    private func applyImportStrategy(_ data: TravelDataExport, strategy: ImportStrategy) throws -> TravelDataExport {
+    private func applyImportStrategy(_ data: TravelDataExport, strategy: ImportStrategy) throws
+        -> TravelDataExport
+    {
         switch strategy {
         case .skipConflicts:
             // Remove conflicting items from import
-            return data // Conflicts will be skipped during import process
+            return data  // Conflicts will be skipped during import process
 
         case .replaceExisting:
             // Keep import data, will overwrite existing
@@ -442,7 +473,9 @@ class TravelDataImporter: ObservableObject {
         }
     }
 
-    private func mergeVisitedPlaces(existing: VisitedPlace, imported: VisitedPlaceExport) -> VisitedPlaceExport {
+    private func mergeVisitedPlaces(existing: VisitedPlace, imported: VisitedPlaceExport)
+        -> VisitedPlaceExport
+    {
         return VisitedPlaceExport(
             id: existing.id?.uuidString ?? imported.id,
             name: imported.name.isEmpty ? existing.name ?? "" : imported.name,
@@ -473,7 +506,8 @@ class TravelDataImporter: ObservableObject {
         return TripPlanExport(
             id: existing.id?.uuidString ?? imported.id,
             tripName: imported.tripName.isEmpty ? existing.tripName ?? "" : imported.tripName,
-            destinationId: imported.destinationId.isEmpty ? (existing.destination?.id?.uuidString ?? "") : imported.destinationId,
+            destinationId: imported.destinationId.isEmpty
+                ? (existing.destination?.id?.uuidString ?? "") : imported.destinationId,
             startDate: min(
                 existing.startDate?.ISO8601String() ?? "",
                 imported.startDate
@@ -484,7 +518,8 @@ class TravelDataImporter: ObservableObject {
             ),
             travelerCount: max(Int(existing.travelerCount), imported.travelerCount),
             totalBudget: existing.totalBudget.doubleValue + imported.totalBudget,
-            accommodationBudget: existing.accommodationBudget.doubleValue + imported.accommodationBudget,
+            accommodationBudget: existing.accommodationBudget.doubleValue
+                + imported.accommodationBudget,
             diningBudget: existing.diningBudget.doubleValue + imported.diningBudget,
             activitiesBudget: existing.activitiesBudget.doubleValue + imported.activitiesBudget,
             transportBudget: existing.transportBudget.doubleValue + imported.transportBudget,
@@ -571,7 +606,8 @@ struct ImportConflictItem {
         ImportConflictItem(
             id: trip.id?.uuidString ?? "",
             name: trip.tripName ?? "",
-            description: "\(trip.startDate?.formatted(date: .abbreviated) ?? "") - \(trip.endDate?.formatted(date: .abbreviated) ?? "")"
+            description:
+                "\(trip.startDate?.formatted(date: .abbreviated) ?? "") - \(trip.endDate?.formatted(date: .abbreviated) ?? "")"
         )
     }
 
@@ -634,10 +670,6 @@ enum ImportError: LocalizedError {
 }
 
 // MARK: - Extensions
-
-extension UserPreferences {
-    static let singletonID = "00000000-0000-0000-0000-000000000000"
-}
 
 extension UTType {
     static let odysseeImport = UTType(filenameExtension: "odyssee", conformingTo: [.json])

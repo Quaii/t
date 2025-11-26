@@ -6,10 +6,10 @@
 //  Copyright © 2025 Odyssée. All rights reserved.
 //
 
-import Photos
-import CoreLocation
 import CoreData
+import CoreLocation
 import Foundation
+import Photos
 import UserNotifications
 
 class PhotoLibraryScanner: ObservableObject {
@@ -59,7 +59,8 @@ class PhotoLibraryScanner: ObservableObject {
         let fetchOptions = PHFetchOptions()
         fetchOptions.includeAssetSourceTypes = [.typeUserLibrary, .typeCloudShared]
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+        fetchOptions.predicate = NSPredicate(
+            format: "mediaType == %d", PHAssetMediaType.image.rawValue)
 
         let allPhotos = PHAsset.fetchAssets(with: fetchOptions)
         DispatchQueue.main.async {
@@ -84,7 +85,9 @@ class PhotoLibraryScanner: ObservableObject {
         }
     }
 
-    private func processPhotosBatch(assets: PHFetchResult<PHAsset>, lastScanDate: Date?, completion: @escaping () -> Void) {
+    private func processPhotosBatch(
+        assets: PHFetchResult<PHAsset>, lastScanDate: Date?, completion: @escaping () -> Void
+    ) {
         let batchSize = 100
         let totalBatches = max(1, assets.count / batchSize)
         var completedBatches = 0
@@ -100,7 +103,9 @@ class PhotoLibraryScanner: ObservableObject {
                     let asset = assets.object(at: index)
 
                     // Skip photos older than last scan date
-                    if let lastScan = lastScanDate, asset.creationDate ?? Date.distantPast <= lastScan {
+                    if let lastScan = lastScanDate,
+                        asset.creationDate ?? Date.distantPast <= lastScan
+                    {
                         continue
                     }
 
@@ -108,7 +113,8 @@ class PhotoLibraryScanner: ObservableObject {
                     if let location = asset.location {
                         // Only include photos with decent GPS accuracy (within 50 meters)
                         if location.horizontalAccuracy <= 50 {
-                            batchLocations.append((location, asset.creationDate ?? Date(), asset.localIdentifier))
+                            batchLocations.append(
+                                (location, asset.creationDate ?? Date(), asset.localIdentifier))
                         }
                     }
                 }
@@ -195,9 +201,11 @@ class PhotoLibraryScanner: ObservableObject {
         }
     }
 
-    private func clusterLocations(_ locations: [(CLLocation, Date, String)]) -> [(CLLocation, DateRange, [String])] {
+    private func clusterLocations(_ locations: [(CLLocation, Date, String)]) -> [(
+        CLLocation, DateRange, [String]
+    )] {
         var clusters: [(CLLocation, DateRange, [String])] = []
-        let clusterRadius: CLLocationDistance = 100 // 100 meters
+        let clusterRadius: CLLocationDistance = 100  // 100 meters
 
         for (location, date, identifier) in locations {
             var placedInCluster = false
@@ -223,11 +231,13 @@ class PhotoLibraryScanner: ObservableObject {
         return clusters
     }
 
-    private func findExistingPlace(coordinate: CLLocationCoordinate2D, in context: NSManagedObjectContext) -> VisitedPlace? {
+    private func findExistingPlace(
+        coordinate: CLLocationCoordinate2D, in context: NSManagedObjectContext
+    ) -> VisitedPlace? {
         let request: NSFetchRequest<VisitedPlace> = VisitedPlace.fetchRequest()
 
         // Find places within 50 meters
-        let latDelta = 0.0005 // approximately 50 meters
+        let latDelta = 0.0005  // approximately 50 meters
         let lonDelta = 0.0005
 
         request.predicate = NSPredicate(
@@ -266,8 +276,8 @@ class PhotoLibraryScanner: ObservableObject {
                 moment.visitedPlace = place
                 moment.photoAssetIdentifier = identifier
                 moment.momentDate = date
-                moment.title = nil // Will be auto-generated
-                moment.description = nil
+                moment.title = nil  // Will be auto-generated
+                moment.descriptionText = nil
                 moment.tags = nil
                 moment.rating = 0
                 moment.isHighlight = false
@@ -316,7 +326,8 @@ class PhotoLibraryScanner: ObservableObject {
         content.body = "Odyssée has discovered new travel locations from your photos."
         content.sound = .default
 
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString, content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request)
     }
 }
@@ -324,8 +335,4 @@ class PhotoLibraryScanner: ObservableObject {
 private struct DateRange {
     var start: Date
     var end: Date
-}
-
-extension UserPreferences {
-    static let singletonID = "00000000-0000-0000-0000-000000000000"
 }

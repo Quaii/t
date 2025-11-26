@@ -6,8 +6,8 @@
 //  PrivateView
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct VisitedPlaceDetailView: View {
     let place: VisitedPlace
@@ -33,19 +33,25 @@ struct VisitedPlaceDetailView: View {
                     // Map preview
                     LuxuryCard {
                         Map(
-                            coordinateRegion: .constant(MKCoordinateRegion(
-                                center: CLLocationCoordinate2D(
-                                    latitude: place.latitude,
-                                    longitude: place.longitude
-                                ),
-                                span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-                            )),
+                            coordinateRegion: .constant(
+                                MKCoordinateRegion(
+                                    center: CLLocationCoordinate2D(
+                                        latitude: place.latitude,
+                                        longitude: place.longitude
+                                    ),
+                                    span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+                                )),
                             interactionModes: [],
                             showsUserLocation: false,
-                            annotations: [
-                                createPlaceAnnotation()
-                            ]
-                        )
+                            annotationItems: [place]
+                        ) { place in
+                            MapMarker(
+                                coordinate: CLLocationCoordinate2D(
+                                    latitude: place.latitude,
+                                    longitude: place.longitude
+                                ))
+                        }
+
                         .frame(height: 200)
                         .cornerRadius(LuxurySpacing.cornerRadiusSmall)
                         .clipped()
@@ -77,7 +83,10 @@ struct VisitedPlaceDetailView: View {
                             }) {
                                 Image(systemName: isFavorite ? "heart.fill" : "heart")
                                     .font(.system(size: 24))
-                                    .foregroundColor(isFavorite ? LuxuryColorPalette.richRed : LuxuryColorPalette.textTertiary)
+                                    .foregroundColor(
+                                        isFavorite
+                                            ? LuxuryColorPalette.richRed
+                                            : LuxuryColorPalette.textTertiary)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
@@ -159,9 +168,12 @@ struct VisitedPlaceDetailView: View {
                             .font(LuxuryTypography.subtitle)
                             .foregroundColor(LuxuryColorPalette.textPrimary)
 
-                        Text(LuxuryTypography.formatCoordinates(latitude: place.latitude, longitude: place.longitude))
-                            .font(LuxuryTypography.body)
-                            .foregroundColor(LuxuryColorPalette.textSecondary)
+                        Text(
+                            LuxuryTypography.formatCoordinates(
+                                latitude: place.latitude, longitude: place.longitude)
+                        )
+                        .font(LuxuryTypography.body)
+                        .foregroundColor(LuxuryColorPalette.textSecondary)
                     }
 
                     // Action buttons
@@ -212,13 +224,14 @@ struct VisitedPlaceDetailView: View {
         let activityViewController = UIActivityViewController(
             activityItems: [
                 "I visited \(place.name ?? "this place") in \(place.city ?? ""), \(place.country ?? "")!",
-                "https://maps.apple.com/?ll=\(place.latitude),\(place.longitude)"
+                "https://maps.apple.com/?ll=\(place.latitude),\(place.longitude)",
             ],
             applicationActivities: nil
         )
 
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
+            let rootViewController = windowScene.windows.first?.rootViewController
+        {
             rootViewController.present(activityViewController, animated: true)
         }
     }
@@ -320,7 +333,9 @@ struct TravelMomentsView: View {
     init(place: VisitedPlace) {
         self.place = place
         self._moments = FetchRequest(
-            sortDescriptors: [NSSortDescriptor(keyPath: \TravelMoment.momentDate, ascending: false)],
+            sortDescriptors: [
+                NSSortDescriptor(keyPath: \TravelMoment.momentDate, ascending: false)
+            ],
             predicate: NSPredicate(format: "visitedPlace == %@", place)
         )
     }
@@ -389,7 +404,7 @@ struct TravelMomentRow: View {
                         .foregroundColor(LuxuryColorPalette.textSecondary)
                 }
 
-                if let description = moment.description, !description.isEmpty {
+                if let description = moment.descriptionText, !description.isEmpty {
                     Text(description)
                         .font(LuxuryTypography.caption)
                         .foregroundColor(LuxuryColorPalette.textTertiary)
@@ -409,8 +424,8 @@ struct TravelMomentRow: View {
     }
 }
 
-private extension DateFormatter {
-    static let short: DateFormatter = {
+extension DateFormatter {
+    fileprivate static let short: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .none
@@ -420,7 +435,9 @@ private extension DateFormatter {
 
 extension View {
     @ViewBuilder
-    func emptyState<Content: View>(if condition: Bool, @ViewBuilder content: () -> Content) -> some View {
+    func emptyState<Content: View>(if condition: Bool, @ViewBuilder content: () -> Content)
+        -> some View
+    {
         if condition {
             content()
         } else {

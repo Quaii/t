@@ -6,8 +6,8 @@
 //  Copyright © 2025 Odyssée. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import UniformTypeIdentifiers
 
 class TravelDataExporter: ObservableObject {
@@ -56,11 +56,13 @@ class TravelDataExporter: ObservableObject {
         }
 
         do {
-            let exportData = try await prepareDateRangeExportData(startDate: startDate, endDate: endDate)
+            let exportData = try await prepareDateRangeExportData(
+                startDate: startDate, endDate: endDate)
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
             let dateString = formatter.string(from: startDate)
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_export_\(dateString)")
+            let fileURL = try await writeExportToFile(
+                data: exportData, fileName: "odyssee_export_\(dateString)")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -87,7 +89,8 @@ class TravelDataExporter: ObservableObject {
 
         do {
             let exportData = try await prepareFavoritesExportData()
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_favorites")
+            let fileURL = try await writeExportToFile(
+                data: exportData, fileName: "odyssee_favorites")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -114,7 +117,8 @@ class TravelDataExporter: ObservableObject {
 
         do {
             let exportData = try await prepareCollectionsExportData(collectionIds: collectionIds)
-            let fileURL = try await writeExportToFile(data: exportData, fileName: "odyssee_collections")
+            let fileURL = try await writeExportToFile(
+                data: exportData, fileName: "odyssee_collections")
 
             await MainActor.run {
                 exportedFileURL = fileURL
@@ -205,7 +209,7 @@ class TravelDataExporter: ObservableObject {
                 photoAssetIdentifier: moment.photoAssetIdentifier ?? "",
                 momentDate: moment.momentDate?.ISO8601String() ?? "",
                 title: moment.title ?? "",
-                description: moment.description ?? "",
+                description: moment.descriptionText ?? "",
                 tags: moment.tags ?? "",
                 rating: Int(moment.rating),
                 isHighlight: moment.isHighlight,
@@ -254,14 +258,17 @@ class TravelDataExporter: ObservableObject {
         return exportData
     }
 
-    private func prepareDateRangeExportData(startDate: Date, endDate: Date) async throws -> TravelDataExport {
+    private func prepareDateRangeExportData(startDate: Date, endDate: Date) async throws
+        -> TravelDataExport
+    {
         // Similar to complete export but filtered by date range
         let exportData = try await prepareCompleteExportData()
 
         // Filter visited places by date range
         exportData.visitedPlaces = exportData.visitedPlaces.filter { place in
             guard let lastVisitString = place.lastVisitDate,
-                  let lastVisitDate = ISO8601DateFormatter().date(from: lastVisitString) else {
+                let lastVisitDate = ISO8601DateFormatter().date(from: lastVisitString)
+            else {
                 return false
             }
             return (lastVisitDate >= startDate) && (lastVisitDate <= endDate)
@@ -270,9 +277,10 @@ class TravelDataExporter: ObservableObject {
         // Filter trip plans by date range
         exportData.tripPlans = exportData.tripPlans.filter { trip in
             guard let tripStartString = trip.startDate,
-                  let tripStartDate = ISO8601DateFormatter().date(from: tripStartString),
-                  let tripEndString = trip.endDate,
-                  let tripEndDate = ISO8601DateFormatter().date(from: tripEndString) else {
+                let tripStartDate = ISO8601DateFormatter().date(from: tripStartString),
+                let tripEndString = trip.endDate,
+                let tripEndDate = ISO8601DateFormatter().date(from: tripEndString)
+            else {
                 return false
             }
             return (tripStartDate <= endDate) && (tripEndDate >= startDate)
@@ -281,7 +289,8 @@ class TravelDataExporter: ObservableObject {
         // Filter travel moments by date range
         exportData.travelMoments = exportData.travelMoments.filter { moment in
             guard let momentDateString = moment.momentDate,
-                  let momentDate = ISO8601DateFormatter().date(from: momentDateString) else {
+                let momentDate = ISO8601DateFormatter().date(from: momentDateString)
+            else {
                 return false
             }
             return (momentDate >= startDate) && (momentDate <= endDate)
@@ -304,7 +313,8 @@ class TravelDataExporter: ObservableObject {
         return TravelDataExport(
             visitedPlaces: favoritesManager.favoritePlaces.compactMap { favorite in
                 guard let id = favorite.id,
-                      let place = favorite.place else { return nil }
+                    let place = favorite.place
+                else { return nil }
                 return VisitedPlaceExport(
                     id: id.uuidString,
                     name: place.name ?? "",
@@ -315,7 +325,7 @@ class TravelDataExporter: ObservableObject {
                     firstVisitDate: place.firstVisitDate?.ISO8601String(),
                     lastVisitDate: place.lastVisitDate?.ISO8601String(),
                     photoCount: Int(place.photoCount),
-                    isFavorite: true, // All exported places are favorites
+                    isFavorite: true,  // All exported places are favorites
                     notes: favorite.notes,
                     tags: favorite.tags.joined(separator: ","),
                     createdAt: place.createdAt?.ISO8601String() ?? "",
@@ -335,7 +345,9 @@ class TravelDataExporter: ObservableObject {
         )
     }
 
-    private func prepareCollectionsExportData(collectionIds: [UUID]) async throws -> TravelDataExport {
+    private func prepareCollectionsExportData(collectionIds: [UUID]) async throws
+        -> TravelDataExport
+    {
         // Implementation for specific collections
         return try await prepareCompleteExportData()
     }
@@ -349,13 +361,18 @@ class TravelDataExporter: ObservableObject {
         let jsonData = try encoder.encode(data)
 
         // Get documents directory
-        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        guard
+            let documentsURL = FileManager.default.urls(
+                for: .documentDirectory, in: .userDomainMask
+            ).first
+        else {
             throw ExportError.documentsDirectoryNotFound
         }
 
         // Create Odyssée export directory
         let exportDirectory = documentsURL.appendingPathComponent("Odyssée Exports")
-        try FileManager.default.createDirectory(at: exportDirectory, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(
+            at: exportDirectory, withIntermediateDirectories: true)
 
         // Write file
         let fileURL = exportDirectory.appendingPathComponent("\(fileName).json")
@@ -366,11 +383,14 @@ class TravelDataExporter: ObservableObject {
 
     // MARK: - Core Data Fetch Methods
 
-    private func fetchVisitedPlaces(context: NSManagedObjectContext) async throws -> [VisitedPlace] {
+    private func fetchVisitedPlaces(context: NSManagedObjectContext) async throws -> [VisitedPlace]
+    {
         return try await withCheckedThrowingContinuation { continuation in
             context.perform {
                 let request: NSFetchRequest<VisitedPlace> = VisitedPlace.fetchRequest()
-                request.sortDescriptors = [NSSortDescriptor(keyPath: \VisitedPlace.lastVisitDate, ascending: false)]
+                request.sortDescriptors = [
+                    NSSortDescriptor(keyPath: \VisitedPlace.lastVisitDate, ascending: false)
+                ]
 
                 do {
                     let places = try context.fetch(request)
@@ -386,7 +406,9 @@ class TravelDataExporter: ObservableObject {
         return try await withCheckedThrowingContinuation { continuation in
             context.perform {
                 let request: NSFetchRequest<TripPlan> = TripPlan.fetchRequest()
-                request.sortDescriptors = [NSSortDescriptor(keyPath: \TripPlan.startDate, ascending: true)]
+                request.sortDescriptors = [
+                    NSSortDescriptor(keyPath: \TripPlan.startDate, ascending: true)
+                ]
 
                 do {
                     let trips = try context.fetch(request)
@@ -398,11 +420,14 @@ class TravelDataExporter: ObservableObject {
         }
     }
 
-    private func fetchTravelMoments(context: NSManagedObjectContext) async throws -> [TravelMoment] {
+    private func fetchTravelMoments(context: NSManagedObjectContext) async throws -> [TravelMoment]
+    {
         return try await withCheckedThrowingContinuation { continuation in
             context.perform {
                 let request: NSFetchRequest<TravelMoment> = TravelMoment.fetchRequest()
-                request.sortDescriptors = [NSSortDescriptor(keyPath: \TravelMoment.momentDate, ascending: false)]
+                request.sortDescriptors = [
+                    NSSortDescriptor(keyPath: \TravelMoment.momentDate, ascending: false)
+                ]
 
                 do {
                     let moments = try context.fetch(request)
@@ -414,7 +439,9 @@ class TravelDataExporter: ObservableObject {
         }
     }
 
-    private func fetchUserPreferences(context: NSManagedObjectContext) async throws -> [UserPreferences] {
+    private func fetchUserPreferences(context: NSManagedObjectContext) async throws
+        -> [UserPreferences]
+    {
         return try await withCheckedThrowingContinuation { continuation in
             context.perform {
                 let request: NSFetchRequest<UserPreferences> = UserPreferences.fetchRequest()

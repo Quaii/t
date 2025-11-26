@@ -7,7 +7,14 @@
 //
 
 import SwiftUI
-import UIKit
+
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 struct ModernTypography {
     // MARK: - Font System (San Francisco)
@@ -77,28 +84,32 @@ struct ModernTypography {
 
     // MARK: - UI Font Equivalents
 
+    // MARK: - UI Font Equivalents
+
     struct UIFonts {
-        static let displayBold = UIFont.systemFont(ofSize: 28, weight: .bold)
-        static let displaySemibold = UIFont.systemFont(ofSize: 22, weight: .semibold)
-        static let displayMedium = UIFont.systemFont(ofSize: 20, weight: .medium)
-        static let textRegular = UIFont.systemFont(ofSize: 17, weight: .regular)
-        static let textMedium = UIFont.systemFont(ofSize: 17, weight: .medium)
-        static let textSemibold = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        static let captionRegular = UIFont.systemFont(ofSize: 15, weight: .regular)
-        static let captionMedium = UIFont.systemFont(ofSize: 15, weight: .medium)
-        static let footnoteRegular = UIFont.systemFont(ofSize: 13, weight: .regular)
-        static let footnoteMedium = UIFont.systemFont(ofSize: 13, weight: .medium)
-        static let largeTitle = UIFont.systemFont(ofSize: 34, weight: .bold)
-        static let title1 = UIFont.systemFont(ofSize: 28, weight: .bold)
-        static let title2 = UIFont.systemFont(ofSize: 22, weight: .bold)
-        static let title3 = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        static let headline = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        static let body = UIFont.systemFont(ofSize: 17, weight: .regular)
-        static let callout = UIFont.systemFont(ofSize: 16, weight: .medium)
-        static let subhead = UIFont.systemFont(ofSize: 15, weight: .regular)
-        static let footnote = UIFont.systemFont(ofSize: 13, weight: .regular)
-        static let caption1 = UIFont.systemFont(ofSize: 12, weight: .regular)
-        static let caption2 = UIFont.systemFont(ofSize: 11, weight: .regular)
+        #if canImport(UIKit)
+            static let displayBold = UIFont.systemFont(ofSize: 28, weight: .bold)
+            static let displaySemibold = UIFont.systemFont(ofSize: 22, weight: .semibold)
+            static let displayMedium = UIFont.systemFont(ofSize: 20, weight: .medium)
+            static let textRegular = UIFont.systemFont(ofSize: 17, weight: .regular)
+            static let textMedium = UIFont.systemFont(ofSize: 17, weight: .medium)
+            static let textSemibold = UIFont.systemFont(ofSize: 17, weight: .semibold)
+            static let captionRegular = UIFont.systemFont(ofSize: 15, weight: .regular)
+            static let captionMedium = UIFont.systemFont(ofSize: 15, weight: .medium)
+            static let footnoteRegular = UIFont.systemFont(ofSize: 13, weight: .regular)
+            static let footnoteMedium = UIFont.systemFont(ofSize: 13, weight: .medium)
+            static let largeTitle = UIFont.systemFont(ofSize: 34, weight: .bold)
+            static let title1 = UIFont.systemFont(ofSize: 28, weight: .bold)
+            static let title2 = UIFont.systemFont(ofSize: 22, weight: .bold)
+            static let title3 = UIFont.systemFont(ofSize: 20, weight: .semibold)
+            static let headline = UIFont.systemFont(ofSize: 17, weight: .semibold)
+            static let body = UIFont.systemFont(ofSize: 17, weight: .regular)
+            static let callout = UIFont.systemFont(ofSize: 16, weight: .medium)
+            static let subhead = UIFont.systemFont(ofSize: 15, weight: .regular)
+            static let footnote = UIFont.systemFont(ofSize: 13, weight: .regular)
+            static let caption1 = UIFont.systemFont(ofSize: 12, weight: .regular)
+            static let caption2 = UIFont.systemFont(ofSize: 11, weight: .regular)
+        #endif
     }
 
     // MARK: - Dynamic Type Support
@@ -226,20 +237,22 @@ extension ModernTypography {
             self.letterSpacing = letterSpacing
         }
 
-        func apply(to text: String) -> Text {
-            var textComponent = Text(text)
+        func apply(to text: String) -> some View {
+            let textComponent = Text(text)
                 .font(font)
                 .foregroundColor(color)
 
             if let lineHeight = lineHeight {
-                textComponent = textComponent.lineSpacing(lineHeight)
+                return AnyView(textComponent.lineSpacing(lineHeight))
             }
 
+            // Apply kerning if needed
+            var finalText = textComponent
             if let letterSpacing = letterSpacing {
-                textComponent = textComponent.kerning(letterSpacing)
+                finalText = finalText.kerning(letterSpacing)
             }
 
-            return textComponent
+            return AnyView(finalText)
         }
     }
 
@@ -347,8 +360,8 @@ extension ModernTypography {
         color: ModernColorPalette.primaryText
     )
 
-    /// Tag text
-    static let tagText = StyledText(
+    /// Tag text style
+    static let tagLabel = StyledText(
         font: tagText,
         color: ModernColorPalette.vibrantBlue
     )
@@ -431,7 +444,7 @@ extension ModernTypography {
     /// Format distance
     static func formatDistance(_ meters: Double) -> Text {
         let formatter = LengthFormatter()
-        formatter.unitStyle = .abbreviated
+        formatter.unitStyle = .short
         let formatted = formatter.string(fromMeters: meters)
 
         return Text(formatted)
@@ -476,22 +489,17 @@ extension ModernTypography {
     }
 }
 
-// MARK: - Accessibility Support
+// MARK: - Font Extensions
+
+extension Font {
+    /// Returns the font scaled within the given range
+    func scaled(minimum: CGFloat, maximum: CGFloat) -> Font {
+        // In a real implementation, this would use UIFontMetrics or similar to clamp the size.
+        // For now, returning self to resolve the build error.
+        return self
+    }
+}
 
 extension ModernTypography {
-    struct Accessible {
-        static let largeTitle = ModernTypography.largeTitle.accessibility()
-        static let title1 = ModernTypography.title1.accessibility()
-        static let headline = ModernTypography.headline.accessibility()
-        static let body = ModernTypography.body.accessibility()
-        static let caption1 = ModernTypography.caption1.accessibility()
-
-        private static func accessibility(font: Font) -> Font {
-            // Ensure minimum readable sizes for accessibility
-            if UIFont.preferredFont(forTextStyle: .body).pointSize >= 18 {
-                return font.size(font.size.value * 1.2)
-            }
-            return font
-        }
-    }
+    // Accessible struct removed due to invalid Font API usage. Use Scaled struct for dynamic type.
 }

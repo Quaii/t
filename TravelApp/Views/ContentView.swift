@@ -6,8 +6,8 @@
 //  Copyright © 2025 Odyssée. All rights reserved.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -27,7 +27,7 @@ struct ContentView: View {
                     Text("Destinations")
                 }
 
-            TripPlanningSuiteView()
+            TripPlanningView()
                 .tabItem {
                     Image(systemName: "calendar.badge.plus")
                     Text("Plan Trip")
@@ -46,14 +46,16 @@ struct ContentView: View {
                 }
         }
         .accentColor(Color("LuxuryAccent"))
-        .preferredColorScheme(.light) // Luxury aesthetic primarily light theme
+        .preferredColorScheme(.light)  // Luxury aesthetic primarily light theme
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.managedObjectContext, CoreDataStack.shared.container.viewContext)
+            .environment(
+                \.managedObjectContext, CoreDataStack.shared.persistentContainer.viewContext
+            )
             .environmentObject(PrivacyManager())
             .previewDisplayName("Odyssée - Luxury Travel")
     }

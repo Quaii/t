@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
 struct LuxuryAnimation {
     // MARK: - Animation Durations
 
@@ -35,7 +39,8 @@ struct LuxuryAnimation {
     static let springy = Animation.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0)
 
     /// Gentle spring for luxury feel
-    static let gentleSpring = Animation.spring(response: 0.8, dampingFraction: 0.9, blendDuration: 0)
+    static let gentleSpring = Animation.spring(
+        response: 0.8, dampingFraction: 0.9, blendDuration: 0)
 
     /// Smooth slide transition
     static let smoothSlide = Animation.timingCurve(0.4, 0.0, 0.2, 1.0, duration: smooth)
@@ -61,10 +66,12 @@ struct LuxuryAnimation {
     static let slideDownTransition = AnyTransition.move(edge: .top).combined(with: .opacity)
 
     /// Slide in from leading
-    static let slideInLeadingTransition = AnyTransition.move(edge: .leading).combined(with: .opacity)
+    static let slideInLeadingTransition = AnyTransition.move(edge: .leading).combined(
+        with: .opacity)
 
     /// Slide in from trailing
-    static let slideInTrailingTransition = AnyTransition.move(edge: .trailing).combined(with: .opacity)
+    static let slideInTrailingTransition = AnyTransition.move(edge: .trailing).combined(
+        with: .opacity)
 
     /// Custom scale and fade
     static let scaleFadeTransition = AnyTransition.asymmetric(
@@ -74,8 +81,8 @@ struct LuxuryAnimation {
 
     /// Gentle rotation and fade
     static let rotateFadeTransition = AnyTransition.asymmetric(
-        insertion: .rotation(.degrees(-5)).combined(with: .opacity),
-        removal: .rotation(.degrees(5)).combined(with: .opacity)
+        insertion: .scale(scale: 0.9).combined(with: .opacity),
+        removal: .scale(scale: 1.1).combined(with: .opacity)
     )
 
     // MARK: - State Animations
@@ -101,8 +108,8 @@ struct LuxuryAnimation {
         static let deselect = Animation.easeInOut(duration: standard)
         static let haptic = "selection" as String
 
-        static func select() {
-            HapticFeedback.selectionChanged()
+        static func triggerSelection() {
+            HapticFeedback.triggerSelection()
         }
     }
 
@@ -138,7 +145,7 @@ struct LuxuryAnimation {
             colors: [
                 Color.clear,
                 Color.white.opacity(0.3),
-                Color.clear
+                Color.clear,
             ],
             startPoint: .leading,
             endPoint: .trailing
@@ -192,38 +199,52 @@ struct LuxuryAnimation {
 
     struct HapticFeedback {
         static func light() {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-            impactFeedback.impactOccurred()
+            #if canImport(UIKit)
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
+            #endif
         }
 
         static func medium() {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-            impactFeedback.impactOccurred()
+            #if canImport(UIKit)
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
+            #endif
         }
 
         static func heavy() {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
-            impactFeedback.impactOccurred()
+            #if canImport(UIKit)
+                let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                impactFeedback.impactOccurred()
+            #endif
         }
 
-        static func selectionChanged() {
-            let selectionFeedback = UISelectionFeedbackGenerator()
-            selectionFeedback.selectionChanged()
+        static func triggerSelection() {
+            #if canImport(UIKit)
+                let selectionFeedback = UISelectionFeedbackGenerator()
+                selectionFeedback.selectionChanged()
+            #endif
         }
 
         static func success() {
-            let notificationFeedback = UINotificationFeedbackGenerator()
-            notificationFeedback.notificationOccurred(.success)
+            #if canImport(UIKit)
+                let notificationFeedback = UINotificationFeedbackGenerator()
+                notificationFeedback.notificationOccurred(.success)
+            #endif
         }
 
         static func warning() {
-            let notificationFeedback = UINotificationFeedbackGenerator()
-            notificationFeedback.notificationOccurred(.warning)
+            #if canImport(UIKit)
+                let notificationFeedback = UINotificationFeedbackGenerator()
+                notificationFeedback.notificationOccurred(.warning)
+            #endif
         }
 
         static func error() {
-            let notificationFeedback = UINotificationFeedbackGenerator()
-            notificationFeedback.notificationOccurred(.error)
+            #if canImport(UIKit)
+                let notificationFeedback = UINotificationFeedbackGenerator()
+                notificationFeedback.notificationOccurred(.error)
+            #endif
         }
     }
 }
@@ -235,7 +256,7 @@ extension View {
     func luxuryButtonPress() -> some View {
         self
             .scaleEffect(1.0)
-            .animation(LuxuryAnimation.ButtonPress.press, value: UUID()) // Will animate on tap
+            .animation(LuxuryAnimation.ButtonPress.press, value: UUID())  // Will animate on tap
             .onTapGesture {
                 LuxuryAnimation.ButtonPress.perform()
             }
@@ -368,7 +389,10 @@ struct SuccessCheckmark: View {
                 path.addLine(to: CGPoint(x: 40, y: 22))
             }
             .trim(from: 0, to: progress)
-            .stroke(LuxuryColorPalette.pearlWhite, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+            .stroke(
+                LuxuryColorPalette.pearlWhite,
+                style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round)
+            )
             .frame(width: 60, height: 60)
         }
         .onAppear {

@@ -33,6 +33,9 @@
 		A3456789012BCDEF1234598 /* InteractiveGlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2345678901BCDEF1234583 /* InteractiveGlobeView.swift */; };
 		A3456789012BCDEF1234599 /* TripPlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2345678901BCDEF1234584 /* TripPlanningView.swift */; };
 		A3456789012BCDEF123459A /* MainDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2345678901BCDEF1234585 /* MainDashboardView.swift */; };
+		B1234567890ABCDEF1234501 /* LuxuryDestinationGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1234567890ABCDEF1234502 /* LuxuryDestinationGuideView.swift */; };
+		B1234567890ABCDEF1234503 /* LuxuryExperiencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1234567890ABCDEF1234504 /* LuxuryExperiencesView.swift */; };
+		B1234567890ABCDEF1234505 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1234567890ABCDEF1234506 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +66,9 @@
 		A2345678901BCDEF1234583 /* InteractiveGlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveGlobeView.swift; sourceTree = "<group>"; };
 		A2345678901BCDEF1234584 /* TripPlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanningView.swift; sourceTree = "<group>"; };
 		A2345678901BCDEF1234585 /* MainDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDashboardView.swift; sourceTree = "<group>"; };
+		B1234567890ABCDEF1234502 /* LuxuryDestinationGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuxuryDestinationGuideView.swift; sourceTree = "<group>"; };
+		B1234567890ABCDEF1234504 /* LuxuryExperiencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuxuryExperiencesView.swift; sourceTree = "<group>"; };
+		B1234567890ABCDEF1234506 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,9 @@
 				A2345678901BCDEF1234605 /* Globe */,
 				A2345678901BCDEF1234584 /* TripPlanningView.swift */,
 				A2345678901BCDEF1234585 /* MainDashboardView.swift */,
+				B1234567890ABCDEF1234502 /* LuxuryDestinationGuideView.swift */,
+				B1234567890ABCDEF1234504 /* LuxuryExperiencesView.swift */,
+				B1234567890ABCDEF1234506 /* SettingsView.swift */,
 				A1234567890ABCDEF1234568 /* ContentView.swift */,
 			);
 			path = Views;
@@ -284,6 +293,9 @@
 				A3456789012BCDEF1234598 /* InteractiveGlobeView.swift in Sources */,
 				A3456789012BCDEF1234599 /* TripPlanningView.swift in Sources */,
 				A3456789012BCDEF123459A /* MainDashboardView.swift in Sources */,
+				B1234567890ABCDEF1234501 /* LuxuryDestinationGuideView.swift in Sources */,
+				B1234567890ABCDEF1234503 /* LuxuryExperiencesView.swift in Sources */,
+				B1234567890ABCDEF1234505 /* SettingsView.swift in Sources */,
 				A1234567890ABCDEF1234569 /* ContentView.swift in Sources */,
 				A1234567890ABCDEF1234571 /* TravelData.xcdatamodeld in Sources */,
 				A1234567890ABCDEF1234567 /* OdysséeApp.swift in Sources */,
