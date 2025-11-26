@@ -1,9 +1,9 @@
 //
 //  PhotoLibraryScanner.swift
-//  Wanderlux
+//  Odyssée
 //
-//  Created by Wanderlux Team on 11/26/2025.
-//  Copyright © 2025 Wanderlux. All rights reserved.
+//  Created by Odyssée Team on 11/26/2025.
+//  Copyright © 2025 Odyssée. All rights reserved.
 //
 
 import Photos
@@ -313,7 +313,7 @@ class PhotoLibraryScanner: ObservableObject {
     private func sendScanCompletionNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Photo Scan Complete"
-        content.body = "Wanderlux has discovered new travel locations from your photos."
+        content.body = "Odyssée has discovered new travel locations from your photos."
         content.sound = .default
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)

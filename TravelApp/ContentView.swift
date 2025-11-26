@@ -1,9 +1,9 @@
 //
 //  ContentView.swift
-//  Wanderlux
+//  Odyssée
 //
-//  Created by Wanderlux Team on 11/26/2025.
-//  Copyright © 2025 Wanderlux. All rights reserved.
+//  Created by Odyssée Team on 11/26/2025.
+//  Copyright © 2025 Odyssée. All rights reserved.
 //
 
 import SwiftUI
@@ -18,7 +18,7 @@ struct ContentView: View {
             MainDashboardView()
                 .tabItem {
                     Image(systemName: "globe.americas.fill")
-                    Text("Wanderlux")
+                    Text("Odyssée")
                 }
 
             LuxuryDestinationGuideView()
@@ -55,6 +55,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, CoreDataStack.shared.container.viewContext)
             .environmentObject(PrivacyManager())
-            .previewDisplayName("Wanderlux - Luxury Travel")
+            .previewDisplayName("Odyssée - Luxury Travel")
     }
 }

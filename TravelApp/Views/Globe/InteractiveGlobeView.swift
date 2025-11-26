@@ -1,9 +1,9 @@
 //
 //  InteractiveGlobeView.swift
-//  Wanderlux
+//  Odyssée
 //
-//  Created by Wanderlux Team on 11/26/2025.
-//  Copyright © 2025 Wanderlux. All rights reserved.
+//  Created by Odyssée Team on 11/26/2025.
+//  Copyright © 2025 Odyssée. All rights reserved.
 //
 
 import SwiftUI

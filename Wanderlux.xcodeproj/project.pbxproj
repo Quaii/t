@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1234567890ABCDEF1234567 /* WanderluxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234566 /* WanderluxApp.swift */; };
+		A1234567890ABCDEF1234567 /* OdysséeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234566 /* OdysséeApp.swift */; };
 		A1234567890ABCDEF1234569 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234568 /* ContentView.swift */; };
 		A1234567890ABCDEF123456B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123456A /* Assets.xcassets */; };
 		A1234567890ABCDEF123456E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123456D /* Preview Assets.xcassets */; };
@@ -36,8 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1234567890ABCDEF1234563 /* Wanderlux.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wanderlux.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1234567890ABCDEF1234566 /* WanderluxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanderluxApp.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF1234563 /* Odyssée.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Odyssée.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1234567890ABCDEF1234566 /* OdysséeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OdysséeApp.swift; sourceTree = "<group>"; };
 		A1234567890ABCDEF1234568 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 		A1234567890ABCDEF123455A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A1234567890ABCDEF1234563 /* Wanderlux.app */,
+				A1234567890ABCDEF1234563 /* Odyssée.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,15 +87,15 @@
 		A1234567890ABCDEF1234559 = {
 			isa = PBXGroup;
 			children = (
-				A1234567890ABCDEF1234565 /* Wanderlux */,
+				A1234567890ABCDEF1234565 /* Odyssée */,
 				A1234567890ABCDEF123455A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A1234567890ABCDEF1234565 /* Wanderlux */ = {
+		A1234567890ABCDEF1234565 /* Odyssée */ = {
 			isa = PBXGroup;
 			children = (
-				A1234567890ABCDEF1234566 /* WanderluxApp.swift */,
+				A1234567890ABCDEF1234566 /* OdysséeApp.swift */,
 				A2345678901BCDEF1234601 /* Components */,
 				A2345678901BCDEF1234602 /* Views */,
 				A2345678901BCDEF1234603 /* Services */,
@@ -194,7 +194,7 @@
 /* Begin PBXNativeTarget section */
 		A1234567890ABCDEF1234562 /* Odyssée */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A1234567890ABCDEF1234572 /* Build configuration list for PBXNativeTarget "Wanderlux" */;
+			buildConfigurationList = A1234567890ABCDEF1234572 /* Build configuration list for PBXNativeTarget "Odyssée" */;
 			buildPhases = (
 				A1234567890ABCDEF123455F /* Sources */,
 				A1234567890ABCDEF1234560 /* Frameworks */,
@@ -208,7 +208,7 @@
 			packageProductDependencies = (
 			);
 			productName = "Odyssée";
-			productReference = A1234567890ABCDEF1234563 /* Wanderlux.app */;
+			productReference = A1234567890ABCDEF1234563 /* Odyssée.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -226,7 +226,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A1234567890ABCDEF123455E /* Build configuration list for PBXProject "Wanderlux" */;
+			buildConfigurationList = A1234567890ABCDEF123455E /* Build configuration list for PBXProject "Odyssée" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -241,7 +241,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A1234567890ABCDEF1234562 /* Wanderlux */,
+				A1234567890ABCDEF1234562 /* Odyssée */,
 			);
 		};
 /* End PBXProject section */
@@ -286,7 +286,7 @@
 				A3456789012BCDEF123459A /* MainDashboardView.swift in Sources */,
 				A1234567890ABCDEF1234569 /* ContentView.swift in Sources */,
 				A1234567890ABCDEF1234571 /* TravelData.xcdatamodeld in Sources */,
-				A1234567890ABCDEF1234567 /* WanderluxApp.swift in Sources */,
+				A1234567890ABCDEF1234567 /* OdysséeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,7 +490,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A1234567890ABCDEF123455E /* Build configuration list for PBXProject "Wanderlux" */ = {
+		A1234567890ABCDEF123455E /* Build configuration list for PBXProject "Odyssée" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1234567890ABCDEF1234573 /* Debug */,
@@ -499,7 +499,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A1234567890ABCDEF1234572 /* Build configuration list for PBXNativeTarget "Wanderlux" */ = {
+		A1234567890ABCDEF1234572 /* Build configuration list for PBXNativeTarget "Odyssée" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1234567890ABCDEF1234575 /* Debug */,
