@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Wanderlux</string>
+	<string>Odyssée</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -31,7 +31,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Show your location on the travel map and provide personalized destination recommendations</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Save travel memories to your photo library from within Wanderlux (optional)</string>
+	<string>Save travel memories to your photo library from within Odyssée (optional)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access photo library to detect visited travel locations and create beautiful travel memories</string>
 	<key>UIApplicationSceneManifest</key>
@@ -85,17 +85,17 @@
 				<string>public.json</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Wanderlux Travel Data</string>
+			<string>Odyssée Travel Data</string>
 			<key>UTTypeIconFiles</key>
 			<array>
 			</array>
 			<key>UTTypeIdentifier</key>
-			<string>com.wanderlux.traveldata</string>
+			<string>com.odysee.traveldata</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>wanderlux</string>
+					<string>odysee</string>
 				</array>
 				<key>public.mime-type</key>
 				<array>
@@ -112,17 +112,17 @@
 				<string>public.json</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Wanderlux Travel Data Export</string>
+			<string>Odyssée Travel Data Export</string>
 			<key>UTTypeIconFiles</key>
 			<array>
 			</array>
 			<key>UTTypeIdentifier</key>
-			<string>com.wanderlux.traveldata</string>
+			<string>com.odysee.traveldata</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>wanderlux</string>
+					<string>odysee</string>
 				</array>
 				<key>public.mime-type</key>
 				<array>
