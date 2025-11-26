@@ -412,7 +412,7 @@ struct LuxuryNavigationController_Previews: PreviewProvider {
                             .font(LuxuryTypography.title)
                             .foregroundColor(LuxuryColorPalette.textPrimary)
 
-                        Navigation Links
+                        // Navigation Links
                         LuxuryNavigationLink(
                             title: "Destination Details",
                             subtitle: "Monaco Grand Prix",
