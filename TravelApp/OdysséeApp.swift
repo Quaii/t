@@ -1,9 +1,9 @@
 //
-//  WanderluxApp.swift
-//  Wanderlux
+//  OdysséeApp.swift
+//  Odyssée
 //
-//  Created by Wanderlux Team on 11/26/2025.
-//  Copyright © 2025 Wanderlux. All rights reserved.
+//  Created by Odyssée Team on 11/26/2025.
+//  Copyright © 2025 Odyssée. All rights reserved.
 //
 
 import SwiftUI
@@ -12,7 +12,7 @@ import Photos
 import CoreLocation
 
 @main
-struct WanderluxApp: App {
+struct OdysséeApp: App {
     let persistenceController = CoreDataStack.shared
     @StateObject private var privacyManager = PrivacyManager()
 

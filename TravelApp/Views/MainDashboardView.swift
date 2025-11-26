@@ -1,9 +1,9 @@
 //
 //  MainDashboardView.swift
-//  Wanderlux
+//  Odyssée
 //
-//  Created by Wanderlux Team on 11/26/2025.
-//  Copyright © 2025 Wanderlux. All rights reserved.
+//  Created by Odyssée Team on 11/26/2025.
+//  Copyright © 2025 Odyssée. All rights reserved.
 //
 
 import SwiftUI
@@ -786,7 +786,7 @@ struct OnboardingOverlay: View {
     @State private var animatedOffset: CGFloat = 0
 
     private let pages = [
-        OnboardingPage(title: "Welcome to Wanderlux", description: "Your personal travel companion for discovering and saving your favorite places around the world.", image: "globe.americas.fill"),
+        OnboardingPage(title: "Welcome to Odyssée", description: "Your personal travel companion for discovering and saving your favorite places around the world.", image: "globe.americas.fill"),
         OnboardingPage(title: "Save Your Spots", description: "Automatically add places from your photos or manually save your favorite restaurants, hotels, and destinations.", image: "heart.fill"),
         OnboardingPage(title: "Plan Your Adventures", description: "Organize your trips, discover new places, and never forget a favorite spot again.", image: "map.fill"),
         OnboardingPage(title: "Smart Discovery", description: "Get personalized recommendations for restaurants, hotels, and attractions based on your preferences.", image: "star.fill")

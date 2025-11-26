@@ -1,8 +1,8 @@
 //
 //  VisitedPlaceDetailView.swift
-//  Wanderlux
+//  Odyssée
 //
-//  Created by Wanderlux Team on 11/26/2025.
+//  Created by Odyssée Team on 11/26/2025.
 //  PrivateView
 //
 
