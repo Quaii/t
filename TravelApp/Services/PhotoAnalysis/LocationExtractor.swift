@@ -11,11 +11,11 @@ import Foundation
 
 class LocationExtractor: NSObject, ObservableObject {
     private let geocoder = CLGeocoder()
-    private let geocodingQueue = DispatchQueue(label: "com.wanderlux.geocoding", qos: .utility)
+    private let geocodingQueue = DispatchQueue(label: "com.odyssee.geocoding", qos: .utility)
 
     // Cache for geocoding results to avoid API limits
     private var geocodingCache: [String: (placeName: String?, country: String?, city: String?)] = [:]
-    private let cacheQueue = DispatchQueue(label: "com.wanderlux.geocoding.cache", attributes: .concurrent)
+    private let cacheQueue = DispatchQueue(label: "com.odyssee.geocoding.cache", attributes: .concurrent)
 
     override init() {
         super.init()
